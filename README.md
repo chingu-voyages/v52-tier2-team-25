@@ -36,6 +36,6 @@ coding!
 
 - Teammate name #1: [GitHub](https://github.com/kirkblackjr) / [LinkedIn](https://www.linkedin.com/in/kirk-black-in-tech/)
 - Troy: [GitHub](https://github.com/Troyzhenny) / [LinkedIn](https://www.linkedin.com/in/tevin-campbell/)
-
+- Yash: [GitHub](https://github.com/chyashp) / [LinkedIn](www.linkedin.com/in/yash-kaur)
    ...
 - Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
