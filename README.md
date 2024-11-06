@@ -35,7 +35,7 @@ your repo access and to practice PR'ing with your team *before* you start
 coding!
 
 - Teammate name #1: [GitHub](https://github.com/kirkblackjr) / [LinkedIn](https://www.linkedin.com/in/kirk-black-in-tech/)
-- Teammate name #2: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
+- Troy: [GitHub](https://github.com/Troyzhenny) / [LinkedIn](https://www.linkedin.com/in/tevin-campbell/)
 
    ...
 - Teammate name #n: [GitHub](https://github.com/ghaccountname) / [LinkedIn](https://linkedin.com/in/liaccountname)
