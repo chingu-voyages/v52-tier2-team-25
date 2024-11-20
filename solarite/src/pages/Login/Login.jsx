@@ -20,94 +20,97 @@ export function Login() {
 
     const handleFormRegisterSubmit = async (e) => {
         e.preventDefault();
-       
 
-        if (values.password !== values.passwordConfirm)
-            console.log("different passwords.");
-        if (values.password.length < 6)
-            console.log("6 char");
+        if (values.password !== values.passwordConfirm) {
+            console.log("Passwords do not match.");
+            return;
+        }
+        if (values.password.length < 6) {
+            console.log("Password must be at least 6 characters long.");
+            return;
+        }
 
-        let { user, error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
             email: values.email,
             password: values.password,
         });
 
         if (error) {
-            console.log(error);
+            console.error("Error signing up:", error.message);
             return;
         }
 
-        setUser(user);
-        console.log("ok");
+        console.log("Sign-up successful:", data);
     };
 
     const handleFormLoginSubmit = async (e) => {
         e.preventDefault();
 
-        let { user, error } = await supabase.auth.signIn({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email: values.email,
             password: values.password,
         });
 
         if (error) {
-            console.log(error);
+            console.error("Error logging in:", error.message);
             return;
         }
+
+        const { user } = data;
         setUser(user);
-        console.log("ok");
+        console.log("Login successful:", user);
     };
 
     const handleSignOut = async () => {
-        let { error } = await supabase.auth.signOut();
+        const { error } = await supabase.auth.signOut();
 
         if (error) {
-            console.log(error);
+            console.error("Error signing out:", error.message);
             return;
         }
-        console.log("ok");
-        setUser();
+
+        console.log("Sign-out successful.");
+        setUser(null);
     };
 
     return (
-        <div id="login-page">
+        <div id="login-page" className="bg-sky-500">
             {user && (
                 <div id="authenticated">
-                    <h2>{user.email}</h2> <p>{user.id}</p>{" "}
-                    <button onClick={handleSignOut}>Deslogar</button>
+                    <h2>{user.email}</h2>
+                    <button onClick={handleSignOut}>Sign out</button>
                 </div>
             )}
 
             {!user && currentScreen === 0 && (
                 <form onSubmit={handleFormLoginSubmit}>
-                    <h2>Entrar</h2>
-
-                    <span>
+                    <span className="flex gap-2 flex-col">
                         <label>Email</label>
                         <input
                             required
                             name="email"
-                            type="text"
+                            type="email"
                             onChange={handleChangeValues}
                             value={values.email}
                         />
                     </span>
 
-                    <span>
-                        <label>Senha</label>
+                    <span className="flex gap-2 flex-col">
+                        <label>Password</label>
                         <input
                             required
                             name="password"
-                            type="text"
+                            type="password"
                             onChange={handleChangeValues}
                             value={values.password}
                         />
                     </span>
 
-                    <button type="submit">Entrar</button>
+                    <button type="submit">Log in</button>
 
                     <p className="space-between">
                         <span className="space-between row-direction">
-                            Não tem conta?{" "}
+                            Don't have an account?{" "}
                             <a
                                 onClick={() => {
                                     setCurrentScreen(1);
@@ -118,7 +121,7 @@ export function Login() {
                                     });
                                 }}
                             >
-                                Cadastrar
+                                Sign Up
                             </a>
                         </span>
                     </p>
@@ -127,44 +130,44 @@ export function Login() {
 
             {!user && currentScreen === 1 && (
                 <form onSubmit={handleFormRegisterSubmit}>
-                    <h2>Registrar</h2>
+                    <h2>Create New Account</h2>
 
-                    <span>
+                    <span className="flex gap-2 flex-col">
                         <label>Email</label>
                         <input
                             required
                             name="email"
-                            type="text"
+                            type="email"
                             onChange={handleChangeValues}
                             value={values.email}
                         />
                     </span>
 
-                    <span>
-                        <label>Senha</label>
+                    <span className="flex gap-2 flex-col">
+                        <label>Password</label>
                         <input
                             required
                             name="password"
-                            type="text"
+                            type="password"
                             onChange={handleChangeValues}
                             value={values.password}
                         />
                     </span>
 
-                    <span>
-                        <label>Confirmar Senha</label>
+                    <span className="flex gap-2 flex-col">
+                        <label>Confirm Password</label>
                         <input
                             required
                             name="passwordConfirm"
-                            type="text"
+                            type="password"
                             onChange={handleChangeValues}
                             value={values.passwordConfirm}
                         />
                     </span>
 
-                    <button type="submit">Cadastrar</button>
+                    <button type="submit">Sign up</button>
                     <p>
-                        Já tem uma conta?{" "}
+                        Already have an account?{" "}
                         <a
                             onClick={() => {
                                 setCurrentScreen(0);
@@ -175,7 +178,7 @@ export function Login() {
                                 });
                             }}
                         >
-                            Entrar
+                            Log in
                         </a>
                     </p>
                 </form>
