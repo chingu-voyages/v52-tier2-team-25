@@ -1,22 +1,45 @@
+import { useState } from "react";
 import { supabase } from "../../services/supabase";
 
-export const UserPage = () =>{
 
-    const handleSignOut = async () => {
-        const { error } = await supabase.auth.signOut();
+export function UserPage() {
+  const [dateTime, setDateTime] = useState(new Date().toISOString()); 
 
-        if (error) {
-            console.error("Error signing out:", error.message);
-            return;
-        }
+  const addAppointment = async () => {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-        console.log("Sign-out successful.");
-        setUser(null);
-    };
+    if (userError) {
+      console.error("Error", userError.message);
+      return;
+    }
+
+    const { error } = await supabase.from("appointment").insert([
+      {
+        user_id: user.id,
+        appointment_time: dateTime, 
+        admin_id: null
+      },
+    ]);
+
+    if (error) {
+      console.error("Error:", error.message);
+    } else {
+      console.log("Success!");
+    }
+  };
+
   return (
-    <div>
-      <h1 className="text-white">USER PAGE</h1>
-      <button className="bg-white p-2 rounded">Add Appointment</button>
+    <div className="user-page">
+      <h2>Add an Appointment</h2>
+      <input
+        type="datetime-local"
+        value={dateTime.slice(0, 16)} 
+        onChange={(e) => setDateTime(e.target.value)}
+      />
+      <button onClick={addAppointment} className="bg-white p-2">Add Appointment</button>
     </div>
-  )
+  );
 }
