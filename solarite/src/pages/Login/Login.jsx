@@ -110,7 +110,7 @@ export function Login() {
 
                     <p className="space-between">
                         <span className="space-between row-direction">
-                            Don't have an account?{" "}
+                            Don&apos;t have an account?{" "}
                             <a
                                 onClick={() => {
                                     setCurrentScreen(1);
