@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { supabase } from "../../services/supabase";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+
+
 
 export function Login() {
     const { user, setUser } = useAuth();
@@ -10,7 +13,7 @@ export function Login() {
         password: "",
         passwordConfirm: "",
     });
-
+    const navigate = useNavigate();
     const handleChangeValues = (event) => {
         setValues((prevValues) => ({
             ...prevValues,
@@ -58,6 +61,8 @@ export function Login() {
 
         const { user } = data;
         setUser(user);
+
+        navigate("/userPage"); 
         console.log("Login successful:", user);
     };
 
