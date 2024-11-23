@@ -63,7 +63,7 @@ export function UserPage() {
 
   // Delete appointment
   const deleteAppointment = async (date) => {
-    const confirmDelete = window.confirm("Tem certeza que deseja cancelar este agendamento?");
+    const confirmDelete = window.confirm("Are you sure you want to cancel?");
     if (confirmDelete) {
       const { error } = await supabase
         .from("appointment")
@@ -74,7 +74,7 @@ export function UserPage() {
       if (error) {
         console.error("Error:", error.message);
       } else {
-        alert("Agendamento cancelado com sucesso!");
+        alert("Appointment was canceled!");
         getUserAppointments();
       }
     }
