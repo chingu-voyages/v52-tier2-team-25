@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --radius: 0.5rem
@@ -10,10 +11,11 @@
 
 
 * {
+  font-size: 1em;
   font-family: 'Satoshi', sans-serif;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
   transition: all .3s ease-in-out;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
@@ -26,4 +28,22 @@
 ::-webkit-scrollbar-thumb {
   background-color: rgb(39, 71, 111);
   border-radius: 100px;
+}
+
+.CTA {
+  animation: bounce 1.9s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(50%);
+  }
+
+  0% {
+    transform: translateY(0);
+  }
 }
