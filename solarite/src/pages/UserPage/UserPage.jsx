@@ -101,7 +101,7 @@ export function UserPage() {
     if (error) {
       console.error("Error:", error.message);
     } else {
-      alert("The ppointment request was saved");
+      alert("The appointment request was saved");
       getUserAppointments();
     }
   };
