@@ -5,22 +5,30 @@ import { Card } from "@/components/Card";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/Button";
 import { IoHelpBuoy, IoCall, IoArrowDownOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export function Landing() {
+  const navigate = useNavigate();
+  const gotToPath = (obj) => {navigate(obj.path, {state: obj.state})}
+
+
   return (
+    <div className="container h-screen w-screen">
+
     <div className="container w-full h-full overflow-x-hidden">
-      {" "}
       <header className="flex justify-between w-full items-center z-10 text-white p-5 fixed backdrop-blur-[5px]">
         <Link to="/">
           <img src={solariteLogo} alt="solarite logo" className="w-h-14 h-14" />
         </Link>
         <Navbar />
         <Button
+          onClick={() => gotToPath({path: '/login', state: 'login'})}
           label="Login"
           className="bg-white text-black rounded-full px-9 py-2 hover:bg-transparent hover:border hover:text-white transition-all duration-500"
         />
       </header>
       <section className="home relative text-white flex flex-col justify-center items-center w-full h-full gap-28 overflow-hidden">
+        {/* <Login /> */}
         <video
           loop
           autoPlay
@@ -79,8 +87,9 @@ export function Landing() {
             </p>
           </Link>
         </div>
-        <Button label="Schedule visit"/>
+        <Button onClick={() => gotToPath({path: '/login', state: 'signup'})} label="Schedule visit"/>
       </section>
+    </div>
     </div>
   );
 }
