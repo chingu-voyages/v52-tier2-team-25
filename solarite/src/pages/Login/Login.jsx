@@ -2,17 +2,23 @@ import { useState } from "react";
 import { supabase } from "../../services/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/Button";
+import { useLocation } from "react-router-dom";
+
 
 
 
 export function Login() {
+    const location = useLocation();
+    const { state } = location;
     const { user, setUser } = useAuth();
-    const [currentScreen, setCurrentScreen] = useState(0);
+    const [currentScreen, setCurrentScreen] = useState(state === 'login' ? 0 : 1);
     const [values, setValues] = useState({
         email: "",
         password: "",
         passwordConfirm: "",
     });
+    
     const navigate = useNavigate();
     const handleChangeValues = (event) => {
         setValues((prevValues) => ({
@@ -74,120 +80,122 @@ export function Login() {
             return;
         }
 
+        navigate('/');
+
         console.log("Sign-out successful.");
         setUser(null);
     };
 
     return (
-        <div id="login-page" className="bg-sky-500">
-            {user && (
-                <div id="authenticated">
-                    <h2>{user.email}</h2>
-                    <button onClick={handleSignOut}>Sign out</button>
-                </div>
-            )}
+        <div id="login-page" className="bg-slate-300 w-96 h-96">
+            {user ? (
+        <div id="authenticated">
+          <h2>{user.email}</h2>
+          <button onClick={handleSignOut}>Sign out</button>
+        </div>
+        ):currentScreen === 0 ? (
+        <form onSubmit={handleFormLoginSubmit}>
+          <span className="flex gap-2 flex-col">
+            <label>Email</label>
+            <input
+              required
+              name="email"
+              type="email"
+              onChange={handleChangeValues}
+              value={values.email}
+              className="bg-gray-200 rounded p-2 text-md"
+            />
+          </span>
 
-            {!user && currentScreen === 0 && (
-                <form onSubmit={handleFormLoginSubmit}>
-                    <span className="flex gap-2 flex-col">
-                        <label>Email</label>
-                        <input
-                            required
-                            name="email"
-                            type="email"
-                            onChange={handleChangeValues}
-                            value={values.email}
-                        />
-                    </span>
+          <span className="flex gap-2 flex-col">
+            <label>Password</label>
+            <input
+              required
+              name="password"
+              type="password"
+              onChange={handleChangeValues}
+              value={values.password}
+              className="bg-gray-200 rounded p-2 text-md"
+            />
+          </span>
 
-                    <span className="flex gap-2 flex-col">
-                        <label>Password</label>
-                        <input
-                            required
-                            name="password"
-                            type="password"
-                            onChange={handleChangeValues}
-                            value={values.password}
-                        />
-                    </span>
+          <Button label="Login" type="submit" />
 
-                    <button type="submit">Log in</button>
+          <p className="space-between">
+            <span className="space-between row-direction">
+              Don&apos;t have an account?{" "}
+              <a
+                onClick={() => {
+                  setCurrentScreen(1);
+                  setValues({
+                    email: "",
+                    password: "",
+                    passwordConfirm: "",
+                  });
+                }}
+              >
+                Sign Up
+              </a>
+            </span>
+          </p>
+        </form>
+                ):(
+        <form onSubmit={handleFormRegisterSubmit}>
+          <h2>Create New Account</h2>
 
-                    <p className="space-between">
-                        <span className="space-between row-direction">
-                            Don&apos;t have an account?{" "}
-                            <a
-                                onClick={() => {
-                                    setCurrentScreen(1);
-                                    setValues({
-                                        email: "",
-                                        password: "",
-                                        passwordConfirm: "",
-                                    });
-                                }}
-                            >
-                                Sign Up
-                            </a>
-                        </span>
-                    </p>
-                </form>
-            )}
+          <span className="flex gap-2 flex-col">
+            <label>Email</label>
+            <input
+              required
+              name="email"
+              type="email"
+              onChange={handleChangeValues}
+              value={values.email}
+            />
+          </span>
 
-            {!user && currentScreen === 1 && (
-                <form onSubmit={handleFormRegisterSubmit}>
-                    <h2>Create New Account</h2>
+          <span className="flex gap-2 flex-col">
+            <label>Password</label>
+            <input
+              required
+              name="password"
+              type="password"
+              onChange={handleChangeValues}
+              value={values.password}
+            />
+          </span>
 
-                    <span className="flex gap-2 flex-col">
-                        <label>Email</label>
-                        <input
-                            required
-                            name="email"
-                            type="email"
-                            onChange={handleChangeValues}
-                            value={values.email}
-                        />
-                    </span>
+          <span className="flex gap-2 flex-col">
+            <label>Confirm Password</label>
+            <input
+              required
+              name="passwordConfirm"
+              type="password"
+              onChange={handleChangeValues}
+              value={values.passwordConfirm}
+            />
+          </span>
 
-                    <span className="flex gap-2 flex-col">
-                        <label>Password</label>
-                        <input
-                            required
-                            name="password"
-                            type="password"
-                            onChange={handleChangeValues}
-                            value={values.password}
-                        />
-                    </span>
-
-                    <span className="flex gap-2 flex-col">
-                        <label>Confirm Password</label>
-                        <input
-                            required
-                            name="passwordConfirm"
-                            type="password"
-                            onChange={handleChangeValues}
-                            value={values.passwordConfirm}
-                        />
-                    </span>
-
-                    <button type="submit">Sign up</button>
-                    <p>
-                        Already have an account?{" "}
-                        <a
-                            onClick={() => {
-                                setCurrentScreen(0);
-                                setValues({
-                                    email: "",
-                                    password: "",
-                                    passwordConfirm: "",
-                                });
-                            }}
-                        >
-                            Log in
-                        </a>
-                    </p>
-                </form>
-            )}
+          <button type="submit">Sign up</button>
+          <p>
+            Already have an account?{" "}
+            <a
+              onClick={() => {
+                setCurrentScreen(0);
+                setValues({
+                  email: "",
+                  password: "",
+                  passwordConfirm: "",
+                });
+              }}
+            >
+              Log in
+            </a>
+          </p>
+        </form>
+                )
+            
+        }
         </div>
     );
 }

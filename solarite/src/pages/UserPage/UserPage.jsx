@@ -32,7 +32,7 @@ export function UserPage() {
   };
 
   return (
-    <div className="user-page">
+    <div className="user-page bg-sky-200 h-screen w-full">
       <h2>Add an Appointment</h2>
       <input
         type="datetime-local"
