@@ -5,125 +5,149 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export function UserPage() {
-  const [dateTime, setDateTime] = useState(new Date().toISOString());
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]); 
+  const [time, setTime] = useState();  
   const [appointments, setAppointments] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [clickTimeout, setClickTimeout] = useState(null);
 
   useEffect(() => {
     getUserAppointments();
   }, []);
 
-  // Get user data and appointments
+  // Fetch user appointments
   const getUserAppointments = async () => {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
-  
+
     if (userError) {
-      console.error("Erro:", userError.message);
+      console.error("Error:", userError.message);
       return;
     }
-  
+
     setUserId(user.id);
-  
+
     const { data, error } = await supabase
       .from("appointment")
-      .select("appointment_date, admin_id")
+      .select("appointment_date, appointment_time, admin_id")
       .eq("user_id", user.id);
-  
+
     if (error) {
-      console.error("Erro:", error.message);
+      console.error("Error:", error.message);
     } else {
-      setAppointments(data);  
+      setAppointments(data);
     }
   };
 
-  //verification of the date
-  const isAppointmentDate = (date) => {
-    return appointments.find(app =>
-      new Date(app.appointment_date).toISOString().split('T')[0] === date.toISOString().split('T')[0]
-    );
+  //check the date of the callender and the appointmens on supabase
+  const getAppointmentByDate = (date) => {
+    return appointments.find(app => app.appointment_date === date.toISOString().split('T')[0]);
   };
 
-  //handle the delete 
-  const handleDateClick = async (date) => {
-    const appointment = isAppointmentDate(date);
-    if (appointment) {
-      const confirmDelete = window.confirm("Are you sure you want to cancel?");
-      if (confirmDelete) {
-        const { error } = await supabase
-          .from("appointment")
-          .delete()
-          .eq("user_id", userId)
-          .eq("appointment_date", date.toISOString().split('T')[0]);  
+  //single or double click
+  const handleDateClick = (date) => {
+    const appointment = getAppointmentByDate(date); //check if the date has an appointment
 
-        if (error) {
-          console.error("Error:", error.message);
-        } else {
-          alert("The appointment was canceled");
-          getUserAppointments();
-        }
+    if (!appointment) return;
+
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+      deleteAppointment(date);
+    } else {
+      setClickTimeout(setTimeout(() => {
+        alert(`Appointment time: ${appointment.appointment_time}`);
+        setClickTimeout(null);
+      }, 300));  //to do the double click
+    }
+  };
+
+  // Delete appointment
+  const deleteAppointment = async (date) => {
+    const confirmDelete = window.confirm("Tem certeza que deseja cancelar este agendamento?");
+    if (confirmDelete) {
+      const { error } = await supabase
+        .from("appointment")
+        .delete()
+        .eq("user_id", userId)
+        .eq("appointment_date", date.toISOString().split('T')[0]);
+
+      if (error) {
+        console.error("Error:", error.message);
+      } else {
+        alert("Agendamento cancelado com sucesso!");
+        getUserAppointments();
       }
     }
   };
 
+  // Add appointment
   const addAppointment = async () => {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
-  
+
     if (userError) {
       console.error("Erro:", userError.message);
       return;
     }
-  
-    const [date, time] = dateTime.split('T');  //split time and date
-  
+
     const { error } = await supabase.from("appointment").insert([
       {
         user_id: user.id,
-        appointment_date: date,  
+        appointment_date: date,
         appointment_time: time,
         admin_id: null
       },
     ]);
-  
+
     if (error) {
       console.error("Error:", error.message);
     } else {
-      alert("Your appointment was saved");
+      alert("The ppointment request was saved");
       getUserAppointments();
     }
   };
 
   return (
     <div className="user-page">
-      <h2>Add Appointment</h2>
-      <input
-        type="datetime-local"
-        value={dateTime.slice(0, 16)}
-        onChange={(e) => setDateTime(e.target.value)}
-        className="bg-white"
-      />
-      <button onClick={addAppointment} className="bg-white p-2">Add Appointment</button>
+      <h2 className='text-white'>Add an appointment</h2>
+      <div className='flex flex-col gap-4 w-36 m-auto p-2'>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="bg-white"
+        />
+        <select value={time} onChange={(e) => setTime(e.target.value)} className="bg-white">
+          {Array.from({ length: 10 }, (_, i) => {
+            const hour = 8 + i;
+            return (
+              <option key={hour} value={`${hour.toString()}:00`}>
+                {`${hour}:00`}
+              </option>
+            );
+          })}
+        </select>
+        <button onClick={addAppointment} className="bg-white p-2">Add</button>
+      </div>
 
-      <h2>Calendar</h2>
+      <h2 className='text-white'>Calendar</h2>
       <Calendar
-        className={'custom-calendar'}
+        className="custom-calendar"
         onClickDay={handleDateClick}
         tileClassName={({ date }) => {
-          const appointment = isAppointmentDate(date);
+          const appointment = getAppointmentByDate(date);
           if (appointment) {
-            return appointment.admin_id ? 'highlight-green ' : 'highlight-yellow';  
+            return appointment.admin_id ? 'highlight-green' : 'highlight-yellow';
           }
           return null;
         }}
       />
-      
       <style jsx>{`
         .highlight-yellow {
-          background-color: #ede883;
+          background-color: #ede883;  
           border-radius: 50%;
         }
-
         .highlight-green {
-          background-color: #88e8a0;
+          background-color: #88e8a0;  
           border-radius: 50%;
         }
       `}</style>
