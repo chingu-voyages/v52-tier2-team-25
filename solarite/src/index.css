@@ -1,3 +1,4 @@
+@import "https://api.fontshare.com/v2/css?f[]=satoshi@400,401,500,700,701&display=swap";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,4 +6,24 @@
   :root {
     --radius: 0.5rem
   }
+}
+
+
+* {
+  font-family: 'Satoshi', sans-serif;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  transition: all .3s ease-in-out;
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: .5rem;
+  background-color: rgb(26, 23, 31);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(39, 71, 111);
+  border-radius: 100px;
 }
