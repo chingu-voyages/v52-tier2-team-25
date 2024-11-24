@@ -20,6 +20,10 @@
   margin: 0;
 }
 
+a {
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: .5rem;
   background-color: rgb(26, 23, 31);
