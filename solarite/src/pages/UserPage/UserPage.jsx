@@ -141,7 +141,7 @@ export function UserPage() {
           return null;
         }}
       />
-      <style jsx>{`
+      <style>{`
         .highlight-yellow {
           background-color: #ede883;  
           border-radius: 50%;
