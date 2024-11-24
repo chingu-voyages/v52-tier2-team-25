@@ -37,7 +37,7 @@ export function Landing() {
             <IoArrowDownOutline />
           </div>
         </section>
-        <section className="flex flex-col items-center justify-center w-full gap-20 services bg-gradient-to-t from-black to-sky-950 py-44">
+        <section id="services" className="flex flex-col items-center justify-center w-full gap-20 services bg-gradient-to-t from-black to-sky-950 py-44">
           <h2 className="text-4xl text-white">Services</h2>
           <div className="relative w-full">
             <div className="flex flex-wrap items-center justify-center gap-10">
@@ -46,10 +46,10 @@ export function Landing() {
           </div>
         </section>
 
-        <section className="flex flex-col items-center justify-center w-full h-full text-white about bg-gradient-to-t from-sky-950 to-black py-44">
+        <section id="about" className="flex flex-col items-center justify-center w-full h-full text-white about bg-gradient-to-t from-sky-950 to-black py-44">
           <h2 className="text-5xl">About us</h2>
           <div className="content w-[80rem] p-10">
-            <p className="text-[1.8em] text-center text-sky-100">
+            <p className="text-[1.8em] text-center text-sky-100 text-pretty">
               At Solarite, we are dedicated to providing affordable and
               sustainable solar energy solutions for homes and businesses. Our
               team of experts works closely with clients to design and install
@@ -60,8 +60,8 @@ export function Landing() {
             </p>
           </div>
         </section>
-        <section className="flex flex-col items-center justify-center w-full h-full bg-white contact py-44">
-          <h2 className="text-4xl text-black">Get In Touch</h2>
+        <section id="contact" className="flex flex-col items-center justify-center w-full h-full bg-white contact py-44">
+          <h2 className="text-5xl text-black">Get In Touch</h2>
           <div className="pt-5 pb-20 content">
             <Link>
               <p className="flex items-center gap-3 text-sky-950">
