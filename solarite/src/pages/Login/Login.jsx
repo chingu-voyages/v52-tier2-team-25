@@ -1,201 +1,34 @@
-import { useState } from "react";
-import { supabase } from "../../services/supabase";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/Button";
 import { useLocation } from "react-router-dom";
-
-
-
+import { useLoginForm } from "../../hooks/useLoginForm";
+import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
+import { Navbar } from "@/components/Navbar";
 
 export function Login() {
-    const location = useLocation();
-    const { state } = location;
-    const { user, setUser } = useAuth();
-    const [currentScreen, setCurrentScreen] = useState(state === 'login' ? 0 : 1);
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
-        passwordConfirm: "",
-    });
-    
-    const navigate = useNavigate();
-    const handleChangeValues = (event) => {
-        setValues((prevValues) => ({
-            ...prevValues,
-            [event.target.name]: event.target.value,
-        }));
-    };
+  const location = useLocation();
+  const { state } = location;
+  const { user, setUser } = useAuth();
 
-    const handleFormRegisterSubmit = async (e) => {
-        e.preventDefault();
+  const { handleSignOut } = useLoginForm({ user, setUser, state });
 
-        if (values.password !== values.passwordConfirm) {
-            console.log("Passwords do not match.");
-            return;
-        }
-        if (values.password.length < 6) {
-            console.log("Password must be at least 6 characters long.");
-            return;
-        }
-
-        const { data, error } = await supabase.auth.signUp({
-            email: values.email,
-            password: values.password,
-        });
-
-        if (error) {
-            console.error("Error signing up:", error.message);
-            return;
-        }
-
-        console.log("Sign-up successful:", data);
-    };
-
-    const handleFormLoginSubmit = async (e) => {
-        e.preventDefault();
-
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: values.email,
-            password: values.password,
-        });
-
-        if (error) {
-            console.error("Error logging in:", error.message);
-            return;
-        }
-
-        const { user } = data;
-        setUser(user);
-
-        navigate("/userPage"); 
-        console.log("Login successful:", user);
-    };
-
-    const handleSignOut = async () => {
-        const { error } = await supabase.auth.signOut();
-
-        if (error) {
-            console.error("Error signing out:", error.message);
-            return;
-        }
-
-        navigate('/');
-
-        console.log("Sign-out successful.");
-        setUser(null);
-    };
-
-    return (
-        <div id="login-page" className="bg-slate-300 w-96 h-96">
-            {user ? (
-        <div id="authenticated">
-          <h2>{user.email}</h2>
-          <button onClick={handleSignOut}>Sign out</button>
-        </div>
-        ):currentScreen === 0 ? (
-        <form onSubmit={handleFormLoginSubmit}>
-          <span className="flex gap-2 flex-col">
-            <label>Email</label>
-            <input
-              required
-              name="email"
-              type="email"
-              onChange={handleChangeValues}
-              value={values.email}
-              className="bg-gray-200 rounded p-2 text-md"
-            />
-          </span>
-
-          <span className="flex gap-2 flex-col">
-            <label>Password</label>
-            <input
-              required
-              name="password"
-              type="password"
-              onChange={handleChangeValues}
-              value={values.password}
-              className="bg-gray-200 rounded p-2 text-md"
-            />
-          </span>
-
-          <Button label="Login" type="submit" />
-
-          <p className="space-between">
-            <span className="space-between row-direction">
-              Don&apos;t have an account?{" "}
-              <a
-                onClick={() => {
-                  setCurrentScreen(1);
-                  setValues({
-                    email: "",
-                    password: "",
-                    passwordConfirm: "",
-                  });
-                }}
-              >
-                Sign Up
-              </a>
-            </span>
-          </p>
-        </form>
-                ):(
-        <form onSubmit={handleFormRegisterSubmit}>
-          <h2>Create New Account</h2>
-
-          <span className="flex gap-2 flex-col">
-            <label>Email</label>
-            <input
-              required
-              name="email"
-              type="email"
-              onChange={handleChangeValues}
-              value={values.email}
-            />
-          </span>
-
-          <span className="flex gap-2 flex-col">
-            <label>Password</label>
-            <input
-              required
-              name="password"
-              type="password"
-              onChange={handleChangeValues}
-              value={values.password}
-            />
-          </span>
-
-          <span className="flex gap-2 flex-col">
-            <label>Confirm Password</label>
-            <input
-              required
-              name="passwordConfirm"
-              type="password"
-              onChange={handleChangeValues}
-              value={values.passwordConfirm}
-            />
-          </span>
-
-          <button type="submit">Sign up</button>
-          <p>
-            Already have an account?{" "}
-            <a
-              onClick={() => {
-                setCurrentScreen(0);
-                setValues({
-                  email: "",
-                  password: "",
-                  passwordConfirm: "",
-                });
-              }}
-            >
-              Log in
-            </a>
-          </p>
-        </form>
-                )
-            
-        }
-        </div>
-    );
+  return (
+    <div className="flex flex-col items-center w-full h-screen bg-gradient-to-b from-sky-900 to-sky-950">
+      <Navbar />
+      <div className="pt-20 flex flex-col items-center justify-center w-full h-full">
+        {user ? (
+          <div id="authenticated">
+            <h2>{user.email}</h2>
+            <button onClick={handleSignOut}>Sign out</button>
+          </div>
+        ) : state === "login" ? (
+          <LoginForm />
+        ) : (
+          <SignUpForm />
+        )}
+      </div>
+    </div>
+  );
 }
+
+export default Login;
