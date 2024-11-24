@@ -51,7 +51,7 @@ const SignUpForm = () => {
             />
           </span>
 
-          <Button label="Sign u" type="submit"/>
+          <Button label="Sign up" type="submit"/>
 
           
           <p>
