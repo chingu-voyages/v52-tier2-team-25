@@ -1,7 +1,7 @@
 import { Landing } from "./pages/Landing/Landing";
 import { Routes, Route } from "react-router-dom";
 import { UserPage } from "./pages/UserPage/UserPage";
-import { Login } from "./pages/Login/Login";
+import Login from "./pages/Login/Login";
 
 const App = () => {
   return (
