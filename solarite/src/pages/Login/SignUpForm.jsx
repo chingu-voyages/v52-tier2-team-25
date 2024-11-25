@@ -1,80 +1,51 @@
-import {useLoginForm } from "../../hooks/useLoginForm"
+import { useLoginForm } from "../../hooks/useLoginForm";
 import { useAuth } from "../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/Button";
-
-
+import SignUpNav from "@/components/signUpForm/signUpNav";
+import SignUpFooter from "@/components/signUpForm/signUpFooter";
+import SignUpFormSection from "@/components/signUpForm/signUpFormSection";
 
 const SignUpForm = () => {
   const location = useLocation();
   const { state } = location;
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
-  const gotToPath = (obj) => {navigate(obj.path, {state: obj.state})}
+  const gotToPath = (obj) => {
+    navigate(obj.path, { state: obj.state });
+  };
 
-    const { setCurrentScreen, values, setValues, handleChangeValues, handleFormRegisterSubmit} = useLoginForm({user, setUser, state})
+  const { values, handleChangeValues, handleFormRegisterSubmit, setValues } =
+    useLoginForm({ user, setUser, state });
   return (
-    <form onSubmit={handleFormRegisterSubmit}>
-          <h2>Create New Account</h2>
+    <main className="px-10 py-16 space-y-6 w-full h-dvh bg-slate-300">
+      <SignUpNav />
 
-          <span className="flex flex-col gap-2">
-            <label>Email</label>
-            <input
-              required
-              name="email"
-              type="email"
-              onChange={handleChangeValues}
-              value={values.email}
-            />
-          </span>
+      <SignUpFormSection
+        onChange={handleChangeValues}
+        values={values}
+        handleFormRegisterSubmit={handleFormRegisterSubmit}
+      />
+      <p className="text-center">
+        Already have an account?{" "}
+        <a
+          onClick={() => {
+            console.log("clicked");
+            setValues({
+              email: "",
+              password: "",
+              passwordConfirm: "",
+            });
+            gotToPath({ path: "/login", state: "login" });
+          }}
+          className="underline cursor-pointer hover:text-green-600"
+        >
+          Log in
+        </a>
+      </p>
+      <SignUpFooter />
+    </main>
+  );
+};
 
-          <span className="flex flex-col gap-2">
-            <label>Password</label>
-            <input
-              required
-              name="password"
-              type="password"
-              onChange={handleChangeValues}
-              value={values.password}
-            />
-          </span>
-
-          <span className="flex flex-col gap-2">
-            <label>Confirm Password</label>
-            <input
-              required
-              name="passwordConfirm"
-              type="password"
-              onChange={handleChangeValues}
-              value={values.passwordConfirm}
-            />
-          </span>
-
-          <Button label="Sign up" type="submit"/>
-
-          
-          <p>
-            Already have an account?
-            <a
-              onClick={() => {
-                console.log("clicked")
-                setCurrentScreen(0);
-                setValues({
-                  email: "",
-                  password: "",
-                  passwordConfirm: "",
-                });
-                gotToPath({path: '/login', state: 'login'})
-              }}
-            >
-              Log in
-            </a>
-          </p>
-        </form>
-  )
-}
-
-export default SignUpForm
-
-
+export default SignUpForm;

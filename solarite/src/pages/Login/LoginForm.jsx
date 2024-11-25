@@ -3,6 +3,7 @@ import { Button } from "@/components/Button";
 import { useAuth } from "../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/Input";
 
 const LoginForm = () => {
   const location = useLocation();
@@ -21,10 +22,15 @@ const LoginForm = () => {
   } = useLoginForm({ user, setUser, state });
 
   return (
-    <form onSubmit={handleFormLoginSubmit} className="inline-flex flex-col justify-center py-2 px-10 bg-gray-100 rounded-xl">
-      <h2 className="p-10 font-bold text-3xl text-sky-900 text-center">Login</h2>
-      
-      <span className="flex flex-col gap-2">
+    <form
+      onSubmit={handleFormLoginSubmit}
+      className="inline-flex flex-col justify-center px-10 py-2 bg-gray-100 rounded-xl"
+    >
+      <h2 className="p-10 text-3xl font-bold text-center text-sky-900">
+        Login
+      </h2>
+
+      {/* <span className="flex flex-col gap-2">
         <label className="text-[1.1em]">Email</label>
         <input
           required
@@ -34,9 +40,23 @@ const LoginForm = () => {
           value={values.email}
           className="p-2 bg-white rounded text-md outline-sky-900"
         />
-      </span>
+      </span> */}
+      <Input
+        label="Email"
+        type="email"
+        name="email"
+        value={values.email}
+        onChange={handleChangeValues}
+      />
       <br />
-      <span className="flex flex-col gap-2">
+      <Input
+        label="Password"
+        type="password"
+        name="password"
+        value={values.password}
+        onChange={handleChangeValues}
+      />
+      {/* <span className="flex flex-col gap-2">
         <label className="text-[1.1em]">Password</label>
         <input
           required
@@ -46,15 +66,21 @@ const LoginForm = () => {
           value={values.password}
           className="p-2 bg-white rounded text-md outline-sky-900"
         />
-      </span>
-      <a className="pt-3 text-sky-900 flex text-right justify-end" href="https://tevintc.xyz/" target="_blank">Forgot password?</a>
+      </span> */}
+      <a
+        className="flex justify-end pt-3 text-right text-sky-900"
+        href="https://tevintc.xyz/"
+        target="_blank"
+      >
+        Forgot password?
+      </a>
 
       <br />
 
       <Button label="Login" type="submit" />
 
       <p>
-        <span className="flex gap-1 items-center justify-center p-10">
+        <span className="flex gap-1 justify-center items-center p-10">
           <p>Don&apos;t have an account?</p>
           <a
             onClick={() => {
