@@ -23,7 +23,7 @@ const SignUpForm = () => {
       <p className="text-center">
         Already have an account?{" "}
         <a
-          onClick={navigate("/login")}
+          onClick={() => navigate("/login")}
           className="underline cursor-pointer hover:text-green-600"
         >
           Log in

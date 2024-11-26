@@ -2,7 +2,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { useLoginForm } from "../../hooks/useLoginForm";
 import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
 import { Navbar } from "@/components/Navbar";
 
 export function Login() {

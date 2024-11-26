@@ -82,8 +82,25 @@ export const useLoginForm = ({ setUser, state }) => {
     const { user } = data;
     setUser(user);
 
-    navigate("/userPage");
-    console.log("Login successful:", user);
+    //new part
+    const { data: employeeData, error: employeeError } = await supabase
+    .from('employee') 
+    .select('id') 
+    .eq('id', user.id) 
+    .single(); 
+
+  if (employeeError) {
+    console.error("Error:", employeeError.message);
+    return;
+  }
+
+  if (employeeData) {
+    navigate("/adminPage"); 
+    console.log("Admin login successful:", user);
+  } else {
+    navigate("/userPage"); 
+    console.log("User login successful:", user);
+  }
   };
 
   const handleSignOut = async () => {
