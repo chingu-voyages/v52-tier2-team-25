@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import { useAuth } from "../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/Input";
+import { Input } from "@/components/inputs/Input";
 
 const LoginForm = () => {
   const location = useLocation();
