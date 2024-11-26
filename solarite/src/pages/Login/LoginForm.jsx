@@ -8,13 +8,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const { user, setUser } = useAuth();
-  const {
-    setCurrentScreen,
-    values,
-    setValues,
-    handleChangeValues,
-    handleFormLoginSubmit,
-  } = useLoginForm({ user, setUser });
+  const { values, setValues, handleChangeValues, handleFormLoginSubmit } =
+    useLoginForm({ user, setUser });
 
   return (
     <form
@@ -58,7 +53,6 @@ const LoginForm = () => {
           <p>Don&apos;t have an account?</p>
           <a
             onClick={() => {
-              setCurrentScreen(1);
               setValues({
                 email: "",
                 password: "",
