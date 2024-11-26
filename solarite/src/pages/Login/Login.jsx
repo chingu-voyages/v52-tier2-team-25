@@ -2,6 +2,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import { useLoginForm } from "../../hooks/useLoginForm";
 import LoginForm from "./LoginForm";
+import SignUpForm from "./SignUpForm";
 import { Navbar } from "@/components/Navbar";
 
 export function Login() {
@@ -20,8 +21,10 @@ export function Login() {
             <h2>{user.email}</h2>
             <button onClick={handleSignOut}>Sign out</button>
           </div>
-        ) : (
+        ) : state === "login" ? (
           <LoginForm />
+        ) : (
+          <SignUpForm />
         )}
       </div>
     </div>

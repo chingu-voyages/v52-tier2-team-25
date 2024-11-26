@@ -50,11 +50,11 @@ export const useLoginForm = ({ setUser, state }) => {
       .insert([
         {
           id: user.id,
-          name: values.name,  
+          name: values.name,
           email: values.email,
           contact: values.contact,
           address: values.address,
-          profile_name: values.profileName  
+          profile_name: values.profileName
         }
       ]);
 
@@ -82,25 +82,28 @@ export const useLoginForm = ({ setUser, state }) => {
     const { user } = data;
     setUser(user);
 
-    //new part
-    const { data: employeeData, error: employeeError } = await supabase
-    .from('employee') 
-    .select('id') 
-    .eq('id', user.id) 
-    .single(); 
+    try {
+      const { data: employeeData, error: employeeError } = await supabase
+        .from('employee')
+        .select('id')
+        .eq('id', user.id)
+        .single();
 
-  if (employeeError) {
-    console.error("Error:", employeeError.message);
-    return;
-  }
-
-  if (employeeData) {
-    navigate("/adminPage"); 
-    console.log("Admin login successful:", user);
-  } else {
-    navigate("/userPage"); 
-    console.log("User login successful:", user);
-  }
+      if (employeeError) {
+        if (employeeError.code === 'PGRST116') {  
+          console.warn("User not found in employee table, redirecting to user page.");
+          navigate("/userPage");
+        } else {
+          throw new Error(employeeError.message);
+        }
+      } else {
+        navigate("/adminPage");
+        console.log("Admin login successful:", user);
+      }
+    } catch (err) {
+      console.error("Error checking employee table:", err.message);
+      alert("An unexpected error occurred. Please try again later.");
+    }
   };
 
   const handleSignOut = async () => {
