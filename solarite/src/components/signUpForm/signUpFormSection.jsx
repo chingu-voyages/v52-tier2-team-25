@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Steps from "@/components/signUpForm/Steps";
 import { Email, Password, Address, Profile } from "./formSteps";
 
@@ -30,9 +30,10 @@ const steps = [
   },
 ];
 
-const SignUpFormSection = ({ onChange, values, handleFormRegisterSubmit }) => {
+const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState([]);
+  const formRef = useRef(null);
 
   const isStepCompleted = (stepId) => completedSteps.includes(stepId);
 
@@ -42,6 +43,8 @@ const SignUpFormSection = ({ onChange, values, handleFormRegisterSubmit }) => {
         setCompletedSteps((prev) => [...prev, currentStep]);
       }
       setCurrentStep((prev) => prev + 1);
+    } else if (currentStep === steps.length) {
+      formRef.current.requestSubmit();
     }
   };
 
@@ -55,12 +58,16 @@ const SignUpFormSection = ({ onChange, values, handleFormRegisterSubmit }) => {
     const step = steps.find((s) => s.id === currentStep);
     if (step) {
       const StepComponent = step.component;
-      return <StepComponent onChange={onChange} values={values} />;
+      return <StepComponent />;
     }
     return null;
   };
   return (
-    <section className="flex gap-4 py-20 lg:h-[560px]">
+    <form
+      ref={formRef}
+      onSubmit={handleFormRegisterSubmit}
+      className="flex gap-4 py-20 lg:h-[560px]"
+    >
       <Steps
         steps={steps}
         currentStep={currentStep}
@@ -75,26 +82,22 @@ const SignUpFormSection = ({ onChange, values, handleFormRegisterSubmit }) => {
         <div className="">{renderStep()}</div>
         <div className="flex gap-x-4 text-white">
           <button
-            className="px-8 py-2 bg-green-600 rounded-lg"
+            className={`px-8 py-2 bg-green-600 rounded-lg ${
+              currentStep === 1 ? "hidden" : ""
+            }`}
             onClick={handleBack}
-            disabled={currentStep === 1}
           >
             Back
           </button>
           <button
             className="px-8 py-2 bg-green-600 rounded-lg"
-            onClick={
-              currentStep === steps.length
-                ? handleFormRegisterSubmit
-                : handleNext
-            }
-            disabled={currentStep === steps.length}
+            onClick={handleNext}
           >
             {currentStep === steps.length ? "Submit" : "Next"}
           </button>
         </div>
       </div>
-    </section>
+    </form>
   );
 };
 
@@ -102,15 +105,4 @@ export default SignUpFormSection;
 
 SignUpFormSection.propTypes = {
   handleFormRegisterSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  values: PropTypes.shape({
-    email: PropTypes.string,
-    password: PropTypes.string,
-    passwordConfirm: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    phone: PropTypes.string,
-    address: PropTypes.string,
-    // Add any other form values you need
-  }).isRequired,
 };
