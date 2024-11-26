@@ -7,9 +7,6 @@ import { FormContext } from "@/context/FormContext";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const gotToPath = (obj) => {
-    navigate(obj.path, { state: obj.state });
-  };
 
   const formState = useSignUpForm();
 
@@ -26,15 +23,7 @@ const SignUpForm = () => {
       <p className="text-center">
         Already have an account?{" "}
         <a
-          onClick={() => {
-            console.log("clicked");
-            formState.setValues({
-              email: "",
-              password: "",
-              passwordConfirm: "",
-            });
-            gotToPath({ path: "/login", state: "login" });
-          }}
+          onClick={navigate("/login")}
           className="underline cursor-pointer hover:text-green-600"
         >
           Log in

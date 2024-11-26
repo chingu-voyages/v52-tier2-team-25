@@ -1,17 +1,12 @@
 import { useLoginForm } from "@/hooks/useLoginForm";
 import { Button } from "@/components/Button";
 import { useAuth } from "../../hooks/useAuth";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/Input";
+import { Input } from "@/components/inputs/Input";
 
 const LoginForm = () => {
-  const location = useLocation();
-  const { state } = location;
   const navigate = useNavigate();
-  const gotToPath = (obj) => {
-    navigate(obj.path, { state: obj.state });
-  };
+
   const { user, setUser } = useAuth();
   const {
     setCurrentScreen,
@@ -19,7 +14,7 @@ const LoginForm = () => {
     setValues,
     handleChangeValues,
     handleFormLoginSubmit,
-  } = useLoginForm({ user, setUser, state });
+  } = useLoginForm({ user, setUser });
 
   return (
     <form
@@ -30,17 +25,6 @@ const LoginForm = () => {
         Login
       </h2>
 
-      {/* <span className="flex flex-col gap-2">
-        <label className="text-[1.1em]">Email</label>
-        <input
-          required
-          name="email"
-          type="email"
-          onChange={handleChangeValues}
-          value={values.email}
-          className="p-2 bg-white rounded text-md outline-sky-900"
-        />
-      </span> */}
       <Input
         label="Email"
         type="email"
@@ -56,17 +40,7 @@ const LoginForm = () => {
         value={values.password}
         onChange={handleChangeValues}
       />
-      {/* <span className="flex flex-col gap-2">
-        <label className="text-[1.1em]">Password</label>
-        <input
-          required
-          name="password"
-          type="password"
-          onChange={handleChangeValues}
-          value={values.password}
-          className="p-2 bg-white rounded text-md outline-sky-900"
-        />
-      </span> */}
+
       <a
         className="flex justify-end pt-3 text-right text-sky-900"
         href="https://tevintc.xyz/"
@@ -90,7 +64,7 @@ const LoginForm = () => {
                 password: "",
                 passwordConfirm: "",
               });
-              gotToPath({ path: "/login", state: "signup" });
+              navigate("/register");
             }}
             className="font-semibold hover:text-sky-900"
           >

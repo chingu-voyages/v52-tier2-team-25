@@ -21,10 +21,8 @@ export function Login() {
             <h2>{user.email}</h2>
             <button onClick={handleSignOut}>Sign out</button>
           </div>
-        ) : state === "login" ? (
-          <LoginForm />
         ) : (
-          <SignUpForm />
+          <LoginForm />
         )}
       </div>
     </div>
