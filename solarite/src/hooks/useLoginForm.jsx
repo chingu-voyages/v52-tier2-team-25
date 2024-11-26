@@ -17,8 +17,6 @@ export const useLoginForm = ({ setUser }) => {
     }));
   };
 
-<<<<<<< HEAD
-=======
   const handleFormRegisterSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,7 +63,6 @@ export const useLoginForm = ({ setUser }) => {
     console.log("Sign-up successful:", data);
   };
 
->>>>>>> 3722e7387df504a8100acb40974bc376896321dd
   const handleFormLoginSubmit = async (e) => {
     e.preventDefault();
 
@@ -82,26 +79,6 @@ export const useLoginForm = ({ setUser }) => {
     const { user } = data;
     setUser(user);
 
-<<<<<<< HEAD
-    //new part
-    const { data: employeeData, error: employeeError } = await supabase
-      .from("employee")
-      .select("id")
-      .eq("id", user.id)
-      .single();
-
-    if (employeeError) {
-      console.error("Error:", employeeError.message);
-      return;
-    }
-
-    if (employeeData) {
-      navigate("/adminPage");
-      console.log("Admin login successful:", user);
-    } else {
-      navigate("/userPage");
-      console.log("User login successful:", user);
-=======
     try {
       const { data: employeeData, error: employeeError } = await supabase
         .from('employee')
@@ -123,7 +100,6 @@ export const useLoginForm = ({ setUser }) => {
     } catch (err) {
       console.error("Error checking employee table:", err.message);
       alert("An unexpected error occurred. Please try again later.");
->>>>>>> 3722e7387df504a8100acb40974bc376896321dd
     }
   };
 
