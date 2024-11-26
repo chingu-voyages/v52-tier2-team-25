@@ -1,32 +1,36 @@
-import { Input } from "../Input";
+import { SignUpInput } from "../inputs/SignUpInput";
 
 const Email = () => {
   return (
     <div className="flex flex-col space-y-4">
-      <Input label="Email" name="email" type="email" />
-      <Input label="Confirm Email" name="emailConfirm" type="email" />
-      <Input label="Name" name="name" type="text" />
+      <SignUpInput label="Email" name="email" type="email" />
+      <SignUpInput label="Confirm Email" name="emailConfirm" type="email" />
+      <SignUpInput label="Name" name="name" type="text" />
     </div>
   );
 };
 
 const Password = () => (
   <div className="flex flex-col space-y-4">
-    <Input label="Password" name="password" type="password" />
-    <Input label="Confirm Password" name="passwordConfirm" type="password" />
+    <SignUpInput label="Password" name="password" type="password" />
+    <SignUpInput
+      label="Confirm Password"
+      name="passwordConfirm"
+      type="password"
+    />
   </div>
 );
 
 const Address = () => (
   <div className="flex flex-col space-y-4">
-    <Input label="Address" name="address" type="text" />
-    <Input label="Phone number" name="phone" type="tel" />
+    <SignUpInput label="Address" name="address" type="text" />
+    <SignUpInput label="Phone number" name="phone" type="tel" />
   </div>
 );
 
 const Profile = () => (
   <div>
-    <Input label="Profile name" name="profileName" type="text" />
+    <SignUpInput label="Profile name" name="profileName" type="text" />
   </div>
 );
 
