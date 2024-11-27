@@ -66,14 +66,17 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
     <form
       ref={formRef}
       onSubmit={handleFormRegisterSubmit}
-      className=" gap-4 py-8 lg:h-[560px] px-20"
+      className=" gap-4 py-8 lg:h-[610px] px-20"
     >
-      <div className="flex px-8 py-8 h-full rounded-xl shadow-2xl backdrop-blur-3xl border-white/60">
+      <div className="flex px-14 py-8 h-full rounded-xl shadow-2xl backdrop-blur-3xl bg-white/25">
         <Steps
           steps={steps}
           currentStep={currentStep}
           completedSteps={completedSteps}
         />
+
+        <div className="h-full w-[1px] bg-gray-300/50" />
+
         <div className="flex flex-col flex-1 items-center space-y-5">
           <div className="text-center">
             <h2 className="text-4xl font-bold">
@@ -82,18 +85,22 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
             <p className="">{steps[currentStep - 1].details}</p>
           </div>
 
-          <div className="">{renderStep()}</div>
+          <div className="h-[60%]">{renderStep()}</div>
           <div className="flex gap-x-4 text-white">
             <button
-              className={`px-8 py-2 bg-green-600 rounded-lg ${
-                currentStep === 1 ? "hidden" : ""
-              }`}
+              className={`w-36 py-2 bg-[#00fa00] font-semibold text-slate-200
+                 hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg ${
+                   currentStep === 1 ? "hidden" : ""
+                 }`}
               onClick={handleBack}
             >
               Back
             </button>
             <button
-              className="px-8 py-2 bg-green-600 rounded-lg"
+              className={`py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
+                 hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50  rounded-lg ${
+                   currentStep === steps.length ? "hidden" : ""
+                 }`}
               onClick={handleNext}
             >
               {currentStep === steps.length ? "Submit" : "Next"}

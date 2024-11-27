@@ -11,7 +11,7 @@ const SignUpForm = () => {
   const formState = useSignUpForm();
 
   return (
-    <main className="space-y-6 w-full text-white bg-gradient-to-b from-sky-800 to-green-200  h-dvh">
+    <main className="space-y-6 w-full text-white bg-gradient-to-b from-sky-800 to-green-200 h-dvh">
       <SignUpNav />
 
       <FormContext.Provider value={formState}>
@@ -24,7 +24,7 @@ const SignUpForm = () => {
         Already have an account?{" "}
         <a
           onClick={() => navigate("/login")}
-          className="underline cursor-pointer hover:text-green-600"
+          className="underline cursor-pointer hover:text-[#00fa00]"
         >
           Log in
         </a>

@@ -6,7 +6,7 @@ const SignUpFooter = () => {
       <div className="flex gap-20">
         <p>© 2024 Solarite. All rights reserved</p>
 
-        <p className="flex gap-2 items-center">
+        <p className="flex gap-2 items-center hover:underline">
           <MailIcon size={16} /> fakesupport@email.com
         </p>
       </div>
