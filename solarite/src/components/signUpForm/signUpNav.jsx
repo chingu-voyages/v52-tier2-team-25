@@ -1,13 +1,13 @@
-import { MoveLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import solariteLogo from "/solarite-logo-w.svg";
 
 const SignUpNav = () => {
   return (
-    <a
-      href="/"
-      className="flex gap-2 items-center cursor-pointer hover:text-green-600 hover:underline"
-    >
-      <MoveLeft color="rgb(22 163 74)" /> Back
-    </a>
+    <div className="px-10 pt-6 pb-6 border-b-[1px] border-slate-50/25">
+      <Link to="/">
+        <img src={solariteLogo} alt="solarite logo" className="h-14 w-h-14" />
+      </Link>
+    </div>
   );
 };
 

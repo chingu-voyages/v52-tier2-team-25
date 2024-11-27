@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const Steps = ({ steps, currentStep, completedSteps }) => {
   return (
-    <div className="flex flex-col flex-1 gap-4">
+    <div className="flex flex-col w-[30%] gap-4">
       {steps.map((step) => {
         const isCompleted = completedSteps.includes(step.id);
         const isCurrent = step.id === currentStep;

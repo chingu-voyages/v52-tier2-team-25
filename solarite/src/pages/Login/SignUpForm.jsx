@@ -11,7 +11,7 @@ const SignUpForm = () => {
   const formState = useSignUpForm();
 
   return (
-    <main className="px-10 py-16 space-y-6 w-full h-dvh bg-slate-300">
+    <main className="space-y-6 w-full text-white bg-gradient-to-b from-sky-800 to-green-200  h-dvh">
       <SignUpNav />
 
       <FormContext.Provider value={formState}>
