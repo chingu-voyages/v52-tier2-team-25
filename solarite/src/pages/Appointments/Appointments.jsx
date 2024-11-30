@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { useAuth } from "../../hooks/useAuth";
-import useAppointments from "../../hooks/useAppointments"; 
+import useAppointments from "../../hooks/useAppointments";
+import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 
 
 const Appointments = () => {
@@ -33,8 +34,6 @@ const Appointments = () => {
   return (
     <div className="p-4">
     <h1 className="text-xl font-bold mb-4">User Appointments</h1>
-
-
     <input
       type="text"
       placeholder="Search appointments..."
