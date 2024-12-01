@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../services/supabase";
+import { signUpSchema } from "../schemas/signUpSchema";
 
 export const useSignUpForm = () => {
   const [values, setValues] = useState({
@@ -19,15 +20,37 @@ export const useSignUpForm = () => {
     profileName: "",
   });
 
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const validateField = (name, value) => {
+    if (!touched[name] && !value) return;
+
+    try {
+      const fieldSchema = signUpSchema.shape[name];
+      fieldSchema.parse(value);
+      setErrors((prev) => ({ ...prev, [name]: null }));
+    } catch (error) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: error.errors[0].message,
+      }));
+    }
+  };
+
   const handleChangeValues = (event) => {
-    setValues((prevValues) => {
-      const updatedValues = {
-        ...prevValues,
-        [event.target.name]: event.target.value,
-      };
-      console.log(updatedValues);
-      return updatedValues;
-    });
+    const { name, value } = event.target;
+    setErrors((prev) => ({ ...prev, [name]: null }));
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleBlur = (name, value) => {
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    validateField(name, value);
   };
 
   const handleFormRegisterSubmit = async (e) => {
@@ -78,7 +101,9 @@ export const useSignUpForm = () => {
 
   return {
     values,
+    errors,
     handleChangeValues,
     handleFormRegisterSubmit,
+    handleBlur,
   };
 };

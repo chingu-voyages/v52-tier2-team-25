@@ -51,6 +51,7 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
   const handleBack = () => {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
+      completedSteps.pop();
     }
   };
 
@@ -66,7 +67,7 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
     <form
       ref={formRef}
       onSubmit={handleFormRegisterSubmit}
-      className=" gap-4 py-8 lg:h-[610px] px-20"
+      className="gap-4 py-8 lg:h-[610px] px-20"
     >
       <div className="flex px-14 py-8 h-full rounded-xl shadow-2xl backdrop-blur-3xl bg-white/25">
         <Steps
@@ -99,7 +100,9 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
             <button
               className={`py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
                  hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50  rounded-lg ${
-                   currentStep === steps.length ? "hidden" : ""
+                   currentStep === steps.length
+                     ? "bg-blue-600 focus:bg-blue-600/50 hover:bg-blue-600/50"
+                     : ""
                  }`}
               onClick={handleNext}
             >
