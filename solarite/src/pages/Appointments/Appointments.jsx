@@ -10,21 +10,32 @@ import {
 import { useAuth } from "../../hooks/useAuth";
 import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
-import { Button } from "../../components/Button"; 
+import { Button } from "../../components/Button";
+
+const statusOptions = ["upcoming", "past", "due"];
 
 const Appointments = () => {
   const { user } = useAuth();
   const { appointments, loading, role, refreshAppointments } = useAppointments(user);
-  const { updateAppointment, updating } = useUpdateAppointment(); 
+  const { updateAppointment, updating } = useUpdateAppointment();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleClickAssign = async (appointmentId) => {
-    const success = await updateAppointment(appointmentId, user.id); 
+    const success = await updateAppointment(appointmentId, { admin_id: user.id });
     if (success) {
-      refreshAppointments(); 
+      refreshAppointments();
     }
   };
 
+  // Função para atualizar o status do agendamento
+  const handleStatusChange = async (appointmentId, newStatus) => {
+    const success = await updateAppointment(appointmentId, { status: newStatus });
+    if (success) {
+      refreshAppointments(); // Atualiza a lista de agendamentos após a mudança
+    }
+  };
+
+  // Filtro de agendamentos
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
     return (
@@ -62,6 +73,7 @@ const Appointments = () => {
               <TableHead>Resident Email</TableHead>
               <TableHead>Resident Address</TableHead>
               <TableHead>Resident Contact</TableHead>
+              <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -69,10 +81,10 @@ const Appointments = () => {
               <TableRow key={appointment.id}>
                 <TableCell>
                   {appointment.employee?.name || (
-                    role === "employee" && ( 
+                    role === "employee" && (
                       <Button
                         label={updating ? "Assigning..." : "Assign to Me"}
-                        onClick={() => handleClickAssign(appointment.id)} 
+                        onClick={() => handleClickAssign(appointment.id)}
                       />
                     )
                   )}
@@ -83,6 +95,19 @@ const Appointments = () => {
                 <TableCell>{appointment.user?.email || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.address || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.contact || "N/A"}</TableCell>
+                <TableCell>
+                  <select
+                    value={appointment.status || "upcoming"}
+                    onChange={(e) => handleStatusChange(appointment.id, e.target.value)} 
+                    className="p-1 border rounded"
+                  >
+                    {statusOptions.map((status) => (
+                      <option key={status} value={status}>
+                        {status.charAt(0).toUpperCase() + status.slice(1)}
+                      </option>
+                    ))}
+                  </select>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

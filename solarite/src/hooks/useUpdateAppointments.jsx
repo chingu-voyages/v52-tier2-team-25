@@ -5,14 +5,14 @@ const useUpdateAppointment = () => {
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState(null);
 
-  const updateAppointment = async (appointmentId, employeeId) => {
+  const updateAppointment = async (appointmentId, updates) => {
     setUpdating(true);
     setUpdateError(null);
 
     try {
       const { data, error } = await supabase
         .from("appointment")
-        .update({ admin_id: employeeId })
+        .update(updates) 
         .eq("id", appointmentId);
 
       if (error) {

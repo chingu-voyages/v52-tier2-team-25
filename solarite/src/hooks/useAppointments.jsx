@@ -36,6 +36,7 @@ const useAppointments = (user) => {
         appointment_date,
         appointment_time,
         admin_id,
+        status,
         user: user_id (name, email, address, contact),
         employee: admin_id (name) 
       `);
