@@ -58,9 +58,14 @@ const useAppointments = (user) => {
     }
   };
 
+  const refreshAppointments = () => {
+    setLoading(true);
+    getAppointments(role);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      await getUserRole();
+      await getUserRole(role);
     };
     fetchData();
   }, [user]);
@@ -71,7 +76,7 @@ const useAppointments = (user) => {
     }
   }, [role]);
 
-  return { appointments, loading, role };
+  return { appointments, loading, role, refreshAppointments };
 };
 
 export default useAppointments;

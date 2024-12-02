@@ -21,9 +21,9 @@ const useUpdateAppointment = () => {
         return null;
       }
 
-      return true; // Return updated appointment data
+      return true; 
     } catch (err) {
-      console.error("Unexpected error:", err.message);
+      console.error("Error:", err.message);
       setUpdateError(err.message);
       return null;
     } finally {
