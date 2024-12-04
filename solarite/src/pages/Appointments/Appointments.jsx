@@ -68,12 +68,12 @@ const Appointments = () => {
   });
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">User Appointments</h1>
+    <div className="p-4 text-white">
+      <h1 className="text-xl font-bold mb-4">Appointments</h1>
       <input
         type="text"
         placeholder="Search appointments..."
-        className="mb-4 p-2 border rounded w-full"
+        className="mb-4 p-2 border rounded w-full text-black"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
