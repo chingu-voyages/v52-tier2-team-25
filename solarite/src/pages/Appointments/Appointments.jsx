@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import { useAuth } from "../../hooks/useAuth";
 import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 import { Button } from "../../components/Button";
-
+import { supabase } from "../../services/supabase"; // Importe o Supabase
 
 const Appointments = () => {
   const { user } = useAuth();
@@ -26,6 +26,34 @@ const Appointments = () => {
       refreshAppointments();
     }
   };
+
+  // Novo useEffect para sincronizar status com Supabase
+  useEffect(() => {
+    const syncStatuses = async () => {
+      for (const appointment of appointments) {
+        const appointmentDate = new Date(appointment.appointment_date).setHours(0, 0, 0, 0);
+        let newStatus = "Due";
+        if (today < appointmentDate) newStatus = "Upcoming";
+        else if (today > appointmentDate) newStatus = "Past";
+
+        // Verifica se o status precisa ser atualizado
+        if (appointment.status !== newStatus) {
+          const { error } = await supabase
+            .from("appointment")
+            .update({ status: newStatus })
+            .eq("id", appointment.id);
+
+          if (error) {
+            console.error(`Erro ao atualizar status do compromisso ${appointment.id}:`, error.message);
+          }
+        }
+      }
+    };
+
+    if (appointments.length > 0) {
+      syncStatuses();
+    }
+  }, [appointments]); // Executa apenas quando os compromissos são carregados
 
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
@@ -87,16 +115,16 @@ const Appointments = () => {
                 <TableCell>{appointment.user?.email || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.address || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.contact || "N/A"}</TableCell>
-                
+
                 <TableCell>
-                  {(()=>{
-                    const appointmentDate = new Date(appointment.appointment_date) 
-                    if(today < appointmentDate){
-                      return 'Upcoming'
-                    }else if(today > appointmentDate){
-                      return 'Past'
-                    }else{
-                      return 'Due'
+                  {(() => {
+                    const appointmentDate = new Date(appointment.appointment_date);
+                    if (today < appointmentDate) {
+                      return 'Upcoming';
+                    } else if (today > appointmentDate) {
+                      return 'Past';
+                    } else {
+                      return 'Due';
                     }
                   })()}
                 </TableCell>
