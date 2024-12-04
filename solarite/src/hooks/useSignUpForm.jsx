@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supabase } from "../services/supabase";
 import { signUpSchema } from "../schemas/signUpSchema";
+import { useNavigate } from "react-router-dom";
+
 
 export const useSignUpForm = () => {
   const [values, setValues] = useState({
@@ -21,6 +23,8 @@ export const useSignUpForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleChangeValues = (event) => {
     const { name, value } = event.target;
@@ -110,7 +114,7 @@ export const useSignUpForm = () => {
       console.error("Error:", insertError.message);
       return;
     }
-
+    navigate("/userPage");
     console.log("Sign-up successful:", data);
   };
 
@@ -123,4 +127,5 @@ export const useSignUpForm = () => {
     validateData,
     setErrors,
   };
+  
 };
