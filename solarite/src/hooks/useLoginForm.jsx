@@ -59,7 +59,7 @@ export const useLoginForm = ({ setUser }) => {
       console.error("Error:", insertError.message);
       return;
     }
-
+    navigate("/userPage");
     console.log("Sign-up successful:", data);
   };
 
