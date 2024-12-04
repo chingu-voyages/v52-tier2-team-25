@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Appointments from "../Appointments/Appointments";
 
 
 export const AdminPage = () => {
@@ -7,6 +8,7 @@ export const AdminPage = () => {
     <div>
      <button onClick={navigate('/appointments')}></button>
       Admin Page
+      <Appointments/>
     </div>
   )
 }
