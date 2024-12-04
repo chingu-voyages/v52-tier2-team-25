@@ -27,7 +27,6 @@ const Appointments = () => {
     }
   };
 
-  // Novo useEffect para sincronizar status com Supabase
   useEffect(() => {
     const syncStatuses = async () => {
       for (const appointment of appointments) {
@@ -36,7 +35,6 @@ const Appointments = () => {
         if (today < appointmentDate) newStatus = "Upcoming";
         else if (today > appointmentDate) newStatus = "Past";
 
-        // Verifica se o status precisa ser atualizado
         if (appointment.status !== newStatus) {
           const { error } = await supabase
             .from("appointment")
@@ -44,7 +42,7 @@ const Appointments = () => {
             .eq("id", appointment.id);
 
           if (error) {
-            console.error(`Erro ao atualizar status do compromisso ${appointment.id}:`, error.message);
+            console.error(`Error: ${appointment.id}:`, error.message);
           }
         }
       }
@@ -53,7 +51,7 @@ const Appointments = () => {
     if (appointments.length > 0) {
       syncStatuses();
     }
-  }, [appointments]); // Executa apenas quando os compromissos são carregados
+  }, [appointments]); 
 
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
