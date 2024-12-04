@@ -12,16 +12,17 @@ import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 import { Button } from "../../components/Button";
 
-
 const Appointments = () => {
   const { user } = useAuth();
-  const { appointments, loading, role, refreshAppointments } = useAppointments(user);
+  const { appointments, loading, role, refreshAppointments } =
+    useAppointments(user);
   const { updateAppointment, updating } = useUpdateAppointment();
   const [searchTerm, setSearchTerm] = useState("");
-  const today = new Date();
 
   const handleClickAssign = async (appointmentId) => {
-    const success = await updateAppointment(appointmentId, { admin_id: user.id });
+    const success = await updateAppointment(appointmentId, {
+      admin_id: user.id,
+    });
     if (success) {
       refreshAppointments();
     }
@@ -30,8 +31,12 @@ const Appointments = () => {
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
     return (
-      (appointment.appointment_date?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.appointment_time?.toLowerCase() || "").includes(searchLower) ||
+      (appointment.appointment_date?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
+      (appointment.appointment_time?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
       (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.address?.toLowerCase() || "").includes(searchLower) ||
@@ -72,14 +77,13 @@ const Appointments = () => {
             {filteredAppointments.map((appointment) => (
               <TableRow key={appointment.id}>
                 <TableCell>
-                  {appointment.employee?.name || (
-                    role === "employee" && (
+                  {appointment.employee?.name ||
+                    (role === "employee" && (
                       <Button
                         label={updating ? "Assigning..." : "Assign to Me"}
                         onClick={() => handleClickAssign(appointment.id)}
                       />
-                    )
-                  )}
+                    ))}
                 </TableCell>
                 <TableCell>{appointment.appointment_date}</TableCell>
                 <TableCell>{appointment.appointment_time}</TableCell>
@@ -87,16 +91,24 @@ const Appointments = () => {
                 <TableCell>{appointment.user?.email || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.address || "N/A"}</TableCell>
                 <TableCell>{appointment.user?.contact || "N/A"}</TableCell>
-                
                 <TableCell>
-                  {(()=>{
-                    const appointmentDate = new Date(appointment.appointment_date) 
-                    if(today < appointmentDate){
-                      return 'Upcoming'
-                    }else if(today > appointmentDate){
-                      return 'Past'
-                    }else{
-                      return 'Due'
+                  {(() => {
+                    const today = new Date();
+                    // Normalize today's date to start of the day
+                    today.setHours(0, 0, 0, 0);
+                    
+                    const appointmentDate = new Date(
+                      appointment.appointment_date
+                    );
+                    // Normalize appointment date to start of the day
+                    appointmentDate.setHours(0, 0, 0, 0);
+
+                    if (today < appointmentDate) {
+                      return "Upcoming";
+                    } else if (today > appointmentDate) {
+                      return "Past";
+                    } else {
+                      return "Due"; // Same day
                     }
                   })()}
                 </TableCell>
