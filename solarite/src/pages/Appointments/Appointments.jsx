@@ -27,9 +27,6 @@ const Appointments = () => {
     }
   };
 
-
-
-  // Filtro de agendamentos
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
     return (
@@ -39,7 +36,8 @@ const Appointments = () => {
       (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.address?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.contact?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.employee?.name?.toLowerCase() || "").includes(searchLower)
+      (appointment.employee?.name?.toLowerCase() || "").includes(searchLower) ||
+      (appointment.status?.toLowerCase() || "").includes(searchLower)
     );
   });
 
