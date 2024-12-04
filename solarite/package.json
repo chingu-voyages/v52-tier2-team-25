@@ -14,11 +14,11 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@mapbox/mapbox-gl-directions": "^4.1.1",
+    "@mapbox/search-js-react": "^1.0.0-beta.24",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "^5.17.9",
     "@tanstack/react-query-devtools": "^5.17.9",
-    "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -32,10 +32,10 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",
     "react-icons": "^5.3.0",
+    "react-phone-number-input": "^3.4.9",
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "validator": "^13.12.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

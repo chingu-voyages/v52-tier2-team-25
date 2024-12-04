@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useRef } from "react";
 import Steps from "@/components/signUpForm/Steps";
 import { Email, Password, Address, Profile } from "./formSteps";
+import { useFormContext } from "@/context/FormContext";
 
 const steps = [
   {
@@ -29,22 +30,68 @@ const steps = [
     component: Profile,
   },
 ];
+const stepValidation = {
+  1: ["email", "emailConfirm", "name"],
+  2: ["password", "passwordConfirm"],
+  3: ["address", "phone"],
+  4: ["profileName"],
+};
 
 const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
+  const { values, errors, validateData, setErrors } = useFormContext();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState([]);
   const formRef = useRef(null);
 
-  const isStepCompleted = (stepId) => completedSteps.includes(stepId);
+  const isStepCompleted = async (stepId) => {
+    const requiredFields = stepValidation[stepId];
+    if (!requiredFields) return true;
 
-  const handleNext = () => {
+    const stepValues = requiredFields.reduce((acc, field) => {
+      acc[field] = values[field] || "";
+      return acc;
+    }, {});
+
+    const fieldResults = requiredFields.map((field) => {
+      const value = stepValues[field];
+      const isFieldFilled = value && value.trim().length > 0;
+      return isFieldFilled;
+    });
+
+    const hasAllFields = fieldResults.every((result) => result === true);
+
+    const newErrors = { ...errors };
+
+    if (!hasAllFields) {
+      requiredFields.forEach((field) => {
+        if (!stepValues[field] || stepValues[field].trim() === "") {
+          newErrors[field] = "This field is required";
+        }
+      });
+    }
+
+    await Promise.all(
+      requiredFields.map(async (field) => {
+        if (stepValues[field] && stepValues[field].trim() !== "") {
+          await validateData(stepValues, field);
+        }
+      })
+    );
+
+    setErrors(newErrors);
+
+    const hasNoErrors = requiredFields.every((field) => !errors[field]);
+
+    return hasAllFields && hasNoErrors;
+  };
+
+  const handleNext = async () => {
     if (currentStep < steps.length) {
-      if (!isStepCompleted(currentStep)) {
+      const isCompleted = await isStepCompleted(currentStep);
+      if (isCompleted) {
         setCompletedSteps((prev) => [...prev, currentStep]);
+        setCurrentStep((prev) => prev + 1);
       }
-      setCurrentStep((prev) => prev + 1);
-    } else if (currentStep === steps.length) {
-      formRef.current.requestSubmit();
     }
   };
 
@@ -63,12 +110,9 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
     }
     return null;
   };
+
   return (
-    <form
-      ref={formRef}
-      onSubmit={handleFormRegisterSubmit}
-      className="gap-4 py-8 lg:h-[610px] px-20"
-    >
+    <form ref={formRef} className="gap-4 py-8 lg:h-[610px] px-20">
       <div className="flex px-14 py-8 h-full rounded-xl shadow-2xl backdrop-blur-3xl bg-white/25">
         <Steps
           steps={steps}
@@ -89,6 +133,7 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
           <div className="h-[60%]">{renderStep()}</div>
           <div className="flex gap-x-4 text-white">
             <button
+              type="button"
               className={`w-36 py-2 bg-[#00fa00] font-semibold text-slate-200
                  hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg ${
                    currentStep === 1 ? "hidden" : ""
@@ -97,17 +142,26 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
             >
               Back
             </button>
-            <button
-              className={`py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
-                 hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50  rounded-lg ${
-                   currentStep === steps.length
-                     ? "bg-blue-600 focus:bg-blue-600/50 hover:bg-blue-600/50"
-                     : ""
-                 }`}
-              onClick={handleNext}
-            >
-              {currentStep === steps.length ? "Submit" : "Next"}
-            </button>
+
+            {currentStep < steps.length ? (
+              <button
+                type="button"
+                className="py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
+            hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg"
+                onClick={handleNext}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleFormRegisterSubmit}
+                className="py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
+            hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg"
+              >
+                Submit
+              </button>
+            )}
           </div>
         </div>
       </div>

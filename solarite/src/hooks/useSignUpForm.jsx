@@ -21,41 +21,56 @@ export const useSignUpForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
-
-  const validateField = (name, value) => {
-    if (!touched[name] && !value) return;
-
-    try {
-      const fieldSchema = signUpSchema.shape[name];
-      fieldSchema.parse(value);
-      setErrors((prev) => ({ ...prev, [name]: null }));
-    } catch (error) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: error.errors[0].message,
-      }));
-    }
-  };
 
   const handleChangeValues = (event) => {
     const { name, value } = event.target;
-    setErrors((prev) => ({ ...prev, [name]: null }));
 
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
+
+    if (errors[name]) {
+      const newErrors = { ...errors };
+      delete newErrors[name];
+      setErrors(newErrors);
+    }
   };
 
-  const handleBlur = (name, value) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    validateField(name, value);
+  const handleBlur = (field, value) => {
+    const dataToValidate = {
+      ...values,
+      [field]: value,
+    };
+    validateData(dataToValidate, field);
+  };
+
+  const validateData = (dataToValidate, field) => {
+    const validation = signUpSchema.safeParse(dataToValidate);
+
+    if (!validation.success) {
+      // Find errors specific to this field
+      const fieldErrors = validation.error.errors.filter(
+        (error) => error.path[0] === field
+      );
+
+      if (fieldErrors.length > 0) {
+        const newErrors = { ...errors };
+        newErrors[field] = fieldErrors[0].message;
+        setErrors(newErrors);
+      }
+      return;
+    }
+
+    if (errors[field]) {
+      const newErrors = { ...errors };
+      delete newErrors[field];
+      setErrors(newErrors);
+    }
   };
 
   const handleFormRegisterSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
 
     if (values.password !== values.passwordConfirm) {
       console.log("Passwords do not match.");
@@ -105,5 +120,7 @@ export const useSignUpForm = () => {
     handleChangeValues,
     handleFormRegisterSubmit,
     handleBlur,
+    validateData,
+    setErrors,
   };
 };
