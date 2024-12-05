@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../services/supabase"; 
 
-const useAppointments = (user) => {
+const useAppointments = (user, statusFilter = null) => {
   const [appointments, setAppointments] = useState([]);
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,16 +17,16 @@ const useAppointments = (user) => {
         .single(); //fetch a single row
 
       if (error) {
-        console.error("Erro ao buscar role do usuário:", error.message);
+        console.error("Error:", error.message);
       } else {
         setRole(data.role);
       }
     } catch (err) {
-      console.error("Erro inesperado:", err.message);
+      console.error("Error:", err.message);
     }
   };
 
-  const getAppointments = async (role) => {
+  const getAppointments = async (role, statusFilter) => {
     if (!user || !role) return;
 
     try {
@@ -37,12 +37,17 @@ const useAppointments = (user) => {
         appointment_time,
         admin_id,
         status,
+        type,
         user: user_id (name, email, address, contact),
         employee: admin_id (name) 
       `);
 
       if (role === "employee") {
-        query = query.or(`admin_id.eq.${user.id},admin_id.is.null`); //filter employee
+        query = query.or(`admin_id.eq.${user.id},admin_id.is.null`); 
+      }
+
+      if (statusFilter) {
+        query = query.eq("status", statusFilter); 
       }
 
       const { data, error } = await query;
@@ -61,7 +66,7 @@ const useAppointments = (user) => {
 
   const refreshAppointments = () => {
     setLoading(true);
-    getAppointments(role);
+    getAppointments(role, statusFilter); 
   };
 
   useEffect(() => {
@@ -73,9 +78,9 @@ const useAppointments = (user) => {
 
   useEffect(() => {
     if (role) {
-      getAppointments(role);
+      getAppointments(role, statusFilter); 
     }
-  }, [role]);
+  }, [role, statusFilter]);
 
   return { appointments, loading, role, refreshAppointments };
 };
