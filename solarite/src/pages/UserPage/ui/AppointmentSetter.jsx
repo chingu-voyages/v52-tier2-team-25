@@ -117,20 +117,19 @@ export function AppointmentSetter() {
   };
 
   return (
-    <div className="flex bg-blue-200 rounded-lg absolute w-[50rem] h-[25rem]">
-      <div className="bg-gray-500 rounded-l-lg w-full">
-        <Button />
-        <div className="flex flex-col gap-4 w-36 m-auto p-2">
+    <div className="flex flex-wrap gap-5 bg-white rounded-lg absolute w-full h-full items-center justify-center">
+      <div className="rounded-l-lg w-[50%]">
+        <div className="flex flex-col gap-4 w-96 m-auto p-2">
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="bg-white"
+            className="bg-gray-300 p-3 rounded-lg"
           />
           <select
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            className="bg-white"
+            className="bg-gray-300 p-3 rounded-lg"
           >
             {Array.from({ length: 10 }, (_, i) => {
               const hour = 8 + i;
@@ -141,33 +140,45 @@ export function AppointmentSetter() {
               );
             })}
           </select>
-          <Button label="Add" onClick={addAppointment}/>
+          <Button label="Create Appointment" onClick={addAppointment} />
         </div>
       </div>
 
-      <Calendar
-        className="custom-calendar"
-        onClickDay={handleDateClick}
-        tileClassName={({ date }) => {
-          const appointment = getAppointmentByDate(date);
-          if (appointment) {
-            return appointment.admin_id
-              ? "highlight-green"
-              : "highlight-yellow";
-          }
-          return null;
-        }}
-      />
-      <style>{`
-        .highlight-yellow {
-          background-color: #ede883;  
+      <div className="flex w-full justify-center items-center">
+        <Calendar
+          className="custom-calendar rounded-r-lg p-7 text-lg font-semibold text-sky-900 flex flex-col items-center justify-center"
+          onClickDay={handleDateClick}
+          tileClassName={({ date }) => {
+            const appointment = getAppointmentByDate(date);
+            if (appointment) {
+              return appointment.admin_id
+                ? "highlight-green"
+                : "highlight-orange";
+            }
+            return null;
+          }}
+        />
+        <style>{`
+        .highlight-orange {
+          background-color: #ff6d09;
           border-radius: 50%;
+          color: white;
+
+          &:hover {
+            color: black;
+          }
         }
         .highlight-green {
           background-color: #88e8a0;  
           border-radius: 50%;
+          color: white;
+
+          &:hover {
+            color: white;
+          }
         }
       `}</style>
+      </div>
     </div>
   );
 }
