@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/services/supabase";
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { Button } from "@/components/Button";
 
 export function AppointmentSetter() {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]); 
-  const [time, setTime] = useState();  
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [time, setTime] = useState();
   const [appointments, setAppointments] = useState([]);
   const [userId, setUserId] = useState(null);
   const [clickTimeout, setClickTimeout] = useState(null);
@@ -16,7 +17,10 @@ export function AppointmentSetter() {
 
   // Fetch user appointments
   const getUserAppointments = async () => {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
     if (userError) {
       console.error("Error:", userError.message);
@@ -37,9 +41,11 @@ export function AppointmentSetter() {
     }
   };
 
-  //check the date of the callender and the appointmens on supabase
+  //check the date of the calendar and the appointmens on supabase
   const getAppointmentByDate = (date) => {
-    return appointments.find(app => app.appointment_date === date.toISOString().split('T')[0]);
+    return appointments.find(
+      (app) => app.appointment_date === date.toISOString().split("T")[0]
+    );
   };
 
   //single or double click
@@ -53,10 +59,12 @@ export function AppointmentSetter() {
       setClickTimeout(null);
       deleteAppointment(date);
     } else {
-      setClickTimeout(setTimeout(() => {
-        alert(`Appointment time: ${appointment.appointment_time}`);
-        setClickTimeout(null);
-      }, 300));  //to do the double click
+      setClickTimeout(
+        setTimeout(() => {
+          alert(`Appointment time: ${appointment.appointment_time}`);
+          setClickTimeout(null);
+        }, 300)
+      ); //to do the double click
     }
   };
 
@@ -68,7 +76,7 @@ export function AppointmentSetter() {
         .from("appointment")
         .delete()
         .eq("user_id", userId)
-        .eq("appointment_date", date.toISOString().split('T')[0]);
+        .eq("appointment_date", date.toISOString().split("T")[0]);
 
       if (error) {
         console.error("Error:", error.message);
@@ -81,7 +89,10 @@ export function AppointmentSetter() {
 
   // Add appointment
   const addAppointment = async () => {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
     if (userError) {
       console.error("Erro:", userError.message);
@@ -93,7 +104,7 @@ export function AppointmentSetter() {
         user_id: user.id,
         appointment_date: date,
         appointment_time: time,
-        admin_id: null
+        admin_id: null,
       },
     ]);
 
@@ -106,35 +117,43 @@ export function AppointmentSetter() {
   };
 
   return (
-    <div className="bg-blue-200 absolute">
-      <div className='flex flex-col gap-4 w-36 m-auto p-2'>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="bg-white"
-        />
-        <select value={time} onChange={(e) => setTime(e.target.value)} className="bg-white">
-          {Array.from({ length: 10 }, (_, i) => {
-            const hour = 8 + i;
-            return (
-              <option key={hour} value={`${hour.toString()}:00`}>
-                {`${hour}:00`}
-              </option>
-            );
-          })}
-        </select>
-        <button onClick={addAppointment} className="bg-white p-2">Add</button>
+    <div className="flex bg-blue-200 rounded-lg absolute w-[50rem] h-[25rem]">
+      <div className="bg-gray-500 rounded-l-lg w-full">
+        <Button />
+        <div className="flex flex-col gap-4 w-36 m-auto p-2">
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="bg-white"
+          />
+          <select
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="bg-white"
+          >
+            {Array.from({ length: 10 }, (_, i) => {
+              const hour = 8 + i;
+              return (
+                <option key={hour} value={`${hour.toString()}:00`}>
+                  {`${hour}:00`}
+                </option>
+              );
+            })}
+          </select>
+          <Button label="Add" onClick={addAppointment}/>
+        </div>
       </div>
 
-      <h2 className='text-white'>Calendar</h2>
       <Calendar
         className="custom-calendar"
         onClickDay={handleDateClick}
         tileClassName={({ date }) => {
           const appointment = getAppointmentByDate(date);
           if (appointment) {
-            return appointment.admin_id ? 'highlight-green' : 'highlight-yellow';
+            return appointment.admin_id
+              ? "highlight-green"
+              : "highlight-yellow";
           }
           return null;
         }}
