@@ -6,7 +6,7 @@ import { useState } from "react";
 export function UserPage() {
   const [toastMessage, setToastMessage] = useState(null)
   return (
-    <div className="bg-black h-screen relative">
+    <div className="w-screen h-screen flex flex-col relative overflow-x-hidden">
       <div>
         <HeadBar />
       </div>

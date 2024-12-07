@@ -7,7 +7,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 export function HeadBar() {
 
     return(
-      <header className="flex justify-between w-full items-center z-10 text-white p-5 sticky bg-sky-900">
+      <header className="flex justify-between w-full items-center z-10 text-white p-3 sticky bg-sky-900">
       <Link to="/userPage">
         <img
           src={solariteLogo}
