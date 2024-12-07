@@ -8,48 +8,64 @@ import { Navbar } from "@/components/Navbar";
 
 export function Landing() {
   const navigate = useNavigate();
-  const gotToPath = (obj) => {
+  const goToPath = (obj) => {
     navigate(obj.path, { state: obj.state });
   };
 
   return (
-    <div className="container w-screen h-screen">
-      <div className="container w-full h-full overflow-x-hidden">
+    // Ensure the outermost container uses overflow-x-hidden
+    <div className="w-screen h-screen overflow-x-hidden">
+      {/* Use full height/width container */}
+      <div className="w-full h-full">
         <Navbar />
-        <section className="relative flex flex-col items-center justify-center w-full h-full overflow-hidden text-white home gap-28">
+        {/* Home Section */}
+        <section className="relative flex flex-col items-center justify-center w-full h-full overflow-hidden text-white home gap-20">
+          {/* Video Background */}
           <video
             loop
             autoPlay
             muted
-            className="absolute inset-0 z-[-2] w-full h-auto"
+            className="absolute inset-0 w-full h-full object-cover z-[-2]"
           >
             <source src={bgVid} type="video/mp4" />
           </video>
 
+          {/* Hero Text */}
           <h1
             aria-label="hero text"
-            className="w-8/12 font-semibold text-center text-8xl leading-20"
+            className="text-6xl sm:text-8xl leading-tight text-center w-10/12 sm:w-8/12 font-semibold"
           >
             CALIFORNIA SOLAR PANEL PROGRAM
           </h1>
-          <div className="flex flex-col items-center justify-center font-semibold CTA">
+          {/* CTA */}
+          <div className="flex flex-col items-center font-semibold">
             <h3>Learn more</h3>
             <IoArrowDownOutline />
           </div>
         </section>
-        <section id="services" className="flex flex-col items-center justify-center w-full gap-20 services bg-gradient-to-t from-black to-sky-950 py-44">
+
+        {/* Services Section */}
+        <section
+          id="services"
+          className="flex flex-col items-center justify-center w-full gap-20 services bg-gradient-to-t from-black to-sky-950 py-20"
+        >
           <h2 className="text-4xl text-white">Services</h2>
-          <div className="relative w-full">
+          <div className="w-full max-w-6xl px-5">
             <div className="flex flex-wrap items-center justify-center gap-10">
               <Card />
             </div>
           </div>
         </section>
 
-        <section id="about" className="flex flex-col items-center justify-center w-full h-full text-white about bg-gradient-to-t from-sky-950 to-black py-44">
+        {/* About Section */}
+        <section
+          id="about"
+          className="flex flex-col items-center justify-center w-full text-white about bg-gradient-to-t from-sky-950 to-black py-20"
+        >
           <h2 className="text-5xl">About us</h2>
-          <div className="content w-[80rem] p-10">
-            <p className="text-[1.8em] text-center text-sky-100 text-pretty">
+          {/* Use max width and padding for responsive design */}
+          <div className="content max-w-4xl w-full px-5 mt-10">
+            <p className="text-lg sm:text-2xl text-center text-sky-100">
               At Solarite, we are dedicated to providing affordable and
               sustainable solar energy solutions for homes and businesses. Our
               team of experts works closely with clients to design and install
@@ -60,7 +76,12 @@ export function Landing() {
             </p>
           </div>
         </section>
-        <section id="contact" className="flex flex-col items-center justify-center w-full h-full bg-white contact py-44">
+
+        {/* Contact Section */}
+        <section
+          id="contact"
+          className="flex flex-col items-center justify-center w-full bg-white contact py-20"
+        >
           <h2 className="text-5xl text-black">Get In Touch</h2>
           <div className="pt-5 pb-20 content">
             <Link>
@@ -75,7 +96,7 @@ export function Landing() {
             </Link>
           </div>
           <Button
-            onClick={() => gotToPath({ path: "/login", state: "signup" })}
+            onClick={() => goToPath({ path: "/login", state: "signup" })}
             label="Schedule visit"
           />
         </section>
