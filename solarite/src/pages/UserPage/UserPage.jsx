@@ -1,18 +1,18 @@
-// import { AppointmentSetter } from "./ui/AppointmentSetter";
+import { AppointmentSetter } from "./ui/AppointmentSetter";
 import { HeadBar } from "./ui/Headbar";
-import { Table } from "./ui/Table";
-// import { Toast } from "./ui/Toast";
+import { Toast } from "./ui/Toast";
+import { useState } from "react";
 
 export function UserPage() {
+  const [toastMessage, setToastMessage] = useState(null)
   return (
-    <div className="bg-slate-950 h-screen relative">
+    <div className="bg-black h-screen relative">
       <div>
         <HeadBar />
       </div>
       <div id="content" className="flex items-center justify-center w-full h-full">
-        {/* <AppointmentSetter /> */}
-        {/* <Toast message="there was an error" /> */}
-        <Table />
+        <AppointmentSetter />
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)}/>
       </div>
     </div>
   );
