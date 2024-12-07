@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import solariteLogo from "/solarite-logo-w.svg";
 import { FaUserCircle } from "react-icons/fa";
 import { RiArrowDropDownLine } from "react-icons/ri";
-
+import { SecondaryButton } from "@/components/SecondaryButton";
 
 
 export function HeadBar() {
 
     return(
-      <header className="flex justify-between w-full items-center z-10 text-white p-5 fixed backdrop-blur-[5px]">
+      <header className="flex justify-between w-full items-center z-10 text-white p-5 fixed bg-sky-900">
       <Link to="/userPage">
         <img
           src={solariteLogo}
@@ -17,7 +17,8 @@ export function HeadBar() {
         />
       </Link>
 
-      <div id="user--account" className="flex gap-2">
+      <div id="user--account" className="flex items-center gap-2 p-1">
+        <SecondaryButton label="Appointment +"/>
         <FaUserCircle className="text-[1.3em]"/>
         <RiArrowDropDownLine className="text-[1.5em] cursor-pointer"/>
       </div>
