@@ -69,7 +69,7 @@ const AppointmentsTable = () => {
 
   return (
     <div className="p-4 text-black">
-      <h1 className="text-xl font-bold mb-4">Appointments</h1>
+      <h1 className="text-xl text-sky-900 font-bold mb-4">All Appointments</h1>
       <input
         type="text"
         placeholder="Search appointments..."

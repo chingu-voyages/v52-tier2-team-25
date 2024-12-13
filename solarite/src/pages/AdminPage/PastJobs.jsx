@@ -70,8 +70,8 @@ const PastJobs = () => {
   }, [appointments]); 
 
   return (
-    <div className="p-4 text-white">
-      <h1 className="text-xl text-gray-800 font-bold mb-4">Passed Jobs</h1>
+    <div className="p-4 text-white w-full">
+      <h1 className="text-xl text-sky-900 font-bold mb-4">Past Jobs</h1>
       <input
         type="text"
         placeholder="Search appointments..."

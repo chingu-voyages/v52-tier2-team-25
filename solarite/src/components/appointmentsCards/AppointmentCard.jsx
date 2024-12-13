@@ -24,15 +24,15 @@ const AppointmentCard = ({ appointment, role, onAssign }) => {
   const formattedTime = appointment.appointment_time;
 
   return (
-    <div className="bg-gray-300 text-gray-900 p-4 rounded-md shadow-sm mb-4">
-      <div className="flex flex-col items-center">
+    <div className="bg-gray-300 max-w-64 text-gray-900 p-4 rounded-md shadow-sm mb-4">
+      <div className="flex flex-col ">
         <div className="mb-4">
           <h3 className="text-lg font-semibold">{appointment.type}</h3>
           <h4 className="text-md font-semibold">Client: {appointment.user?.name}</h4>
           <p>Assigned to:</p>
           <p>{appointment.employee?.name || "Unassigned"}</p>
-          <p className="text-2xl text-center font-extrabold"> {formattedTime}</p>
-          <p className="text-sm">{dayOfWeek}, {formattedDate}</p>
+          <p className="text-2xl text-center font-extrabold items-center"> {formattedTime}</p>
+          <p className="text-sm text-center">{dayOfWeek}, {formattedDate}</p>
          
         </div>
         <Button
