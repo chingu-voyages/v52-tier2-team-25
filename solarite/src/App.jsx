@@ -7,6 +7,7 @@ import SignUpForm from "./pages/Login/SignUpForm";
 import Appointments from "./pages/AdminPage/Appointments";
 import WorkRoute from "./pages/AdminPage/WorkRoute";
 import PastJobs from "./pages/AdminPage/PastJobs";
+import AppointmentsTable from "./pages/AppointmentsTable/Appointments";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="appointments" element={<Appointments />} />
         <Route path="route" element={<WorkRoute />} />
         <Route path="past-jobs" element={<PastJobs />} />
+        <Route path="all-appointments" element={<AppointmentsTable />} />
       </Route>
       <Route path="/user" element={<UserPage />} />
     </Routes>

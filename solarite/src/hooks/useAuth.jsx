@@ -13,13 +13,27 @@ export function AuthContextProvider({ children }) {
                 console.error("Error fetching user:", error.message);
             } else {
                 setUser(data.user);
-                console.log("User:", data.user);
+                console.log("User fetched:", data.user);
             }
         };
 
         fetchUser();
-    }, []); 
 
+        //auth state changes
+        const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                setUser(session.user);
+                console.log("User session updated:", session.user);
+            } else {
+                setUser(null);
+                console.log("User logged out");
+            }
+        });
+
+        return () => {
+            authListener?.unsubscribe();
+        };
+    }, []); 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
             {children}

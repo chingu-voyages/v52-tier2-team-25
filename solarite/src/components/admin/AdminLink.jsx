@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const AdminLink = ({ url, link }) => {
   return (
-    <NavLink to={url} className="text-black">
+    <NavLink to={url} className="text-white font-bold hover:text-blue-200">
       {link}
     </NavLink>
   );

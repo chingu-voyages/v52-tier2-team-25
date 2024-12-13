@@ -30,7 +30,7 @@ const PastJobs = () => {
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
 
-    const isValidStatus = appointment.status === "Passed" ;
+    const isValidStatus = appointment.status === "Past" ;
     return isValidStatus && (
       (appointment.appointment_date?.toLowerCase() || "").includes(searchLower) ||
       (appointment.appointment_time?.toLowerCase() || "").includes(searchLower) ||

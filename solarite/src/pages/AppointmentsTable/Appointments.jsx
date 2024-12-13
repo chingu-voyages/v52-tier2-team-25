@@ -11,9 +11,9 @@ import { useAuth } from "../../hooks/useAuth";
 import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 import { Button } from "../../components/Button";
-import { supabase } from "../../services/supabase"; // Importe o Supabase
+import { supabase } from "../../services/supabase"; 
 
-const Appointments = () => {
+const AppointmentsTable = () => {
   const { user } = useAuth();
   const { appointments, loading, role, refreshAppointments } = useAppointments(user);
   const { updateAppointment, updating } = useUpdateAppointment();
@@ -68,7 +68,7 @@ const Appointments = () => {
   });
 
   return (
-    <div className="p-4 text-white">
+    <div className="p-4 text-black">
       <h1 className="text-xl font-bold mb-4">Appointments</h1>
       <input
         type="text"
@@ -137,4 +137,4 @@ const Appointments = () => {
   );
 };
 
-export default Appointments;
+export default AppointmentsTable;

@@ -94,7 +94,7 @@ export const useLoginForm = ({ setUser }) => {
           throw new Error(employeeError.message);
         }
       } else {
-        navigate("/adminPage");
+        navigate("/adminPage/appointments");
         console.log("Admin login successful:", user);
       }
     } catch (err) {
