@@ -22,7 +22,7 @@ const App = () => {
         <Route path="past-jobs" element={<PastJobs />} />
         <Route path="all-appointments" element={<AppointmentsTable />} />
       </Route>
-      <Route path="/user" element={<UserPage />} />
+      <Route path="/userPage" element={<UserPage />} />
     </Routes>
   );
 };
