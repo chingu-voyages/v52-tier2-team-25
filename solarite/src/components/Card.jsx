@@ -1,8 +1,11 @@
 // Service cards
-
-import { cardData } from "@/constants/constants";
-
 export function Card() {
+  const cardData = [
+    { id: 1, title: "Installation", image: "/si.jpg" },
+    { id: 2, title: "Maintenance", image: "/sm.jpg" },
+    { id: 3, title: "Haul-away", image: "/sh.jpg" },
+  ];
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-10 relative">
       {cardData.map((data) => (
