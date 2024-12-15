@@ -6,14 +6,14 @@ import { geocodeAddress, getOptimizedRoute } from "@/components/lib/utils";
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_API_KEY;
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-const destinations = [
-  "29 Hillhaven Drive, Los Angeles, CA 90036",
-  "526 S Ardmore Ave, Los Angeles, CA 90020",
-  "1720 Menlo Ave, Los Angeles, CA 90006",
-  "942 S Eastman Ave, Los Angeles, CA 90023",
-];
+// const destinations = [
+//   "29 Hillhaven Drive, Los Angeles, CA 90036",
+//   "526 S Ardmore Ave, Los Angeles, CA 90020",
+//   "1720 Menlo Ave, Los Angeles, CA 90006",
+//   "942 S Eastman Ave, Los Angeles, CA 90023",
+// ];
 
-function Map() {
+function Map({ appointments, setOptimizedAppointments }) {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null); // Add ref to store map instance
   const [optimizedRoute, setOptimizedRoute] = useState(null);
@@ -47,7 +47,9 @@ function Map() {
       try {
         // Then, geocode all destination addresses
         const destCoords = await Promise.all(
-          destinations.map((address) => geocodeAddress(address))
+          appointments.map((appointment) =>
+            geocodeAddress(appointment.user.address)
+          )
         );
 
         // Combine starting point with destinations
@@ -60,6 +62,23 @@ function Map() {
         if (allCoordinates.length >= 2) {
           const routeGeometry = await getOptimizedRoute(allCoordinates);
           setOptimizedRoute(routeGeometry);
+          const orderedAppointments = appointments
+            .map((appointment, index) => ({
+              ...appointment,
+              coordinates: destCoords[index],
+            }))
+            .sort((a, b) => {
+              const indexA = routeGeometry.findIndex(
+                (coord) =>
+                  coord[0] === a.coordinates[0] && coord[1] === a.coordinates[1]
+              );
+              const indexB = routeGeometry.findIndex(
+                (coord) =>
+                  coord[0] === b.coordinates[0] && coord[1] === b.coordinates[1]
+              );
+              return indexA - indexB;
+            });
+          setOptimizedAppointments(orderedAppointments);
         }
       } catch (error) {
         console.error("Error fetching optimized route:", error);
@@ -67,7 +86,7 @@ function Map() {
     };
 
     fetchOptimizedRoute();
-  }, []); // Empty dependency array as we only want to fetch once
+  }, [appointments]); // Empty dependency array as we only want to fetch once
 
   // Third useEffect to update map with markers and route
   useEffect(() => {
@@ -142,7 +161,11 @@ function Map() {
     mapRef.current.fitBounds(bounds, { padding: 50 });
   }, [mapLoaded, destinationsCoordinates, optimizedRoute]);
 
-  return <div ref={mapContainerRef} style={{ height: "400px" }} />;
+  return (
+    <div className="rounded-lg overflow-hidden h-[400px]">
+      <div ref={mapContainerRef} className="h-full w-full" />
+    </div>
+  );
 }
 
 export default Map;
