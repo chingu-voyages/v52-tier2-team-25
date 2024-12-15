@@ -4,7 +4,6 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/v52-tier2-team-25/",
   plugins: [react()],
   server: {
     port: 3000,
