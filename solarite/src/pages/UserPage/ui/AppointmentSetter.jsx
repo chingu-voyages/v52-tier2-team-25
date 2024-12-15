@@ -161,7 +161,7 @@ export function AppointmentSetter() {
         </div>
 
         {/* Calendar */}
-        <div className="flex w-full justify-center items-center mt-4">
+        <div className="flex flex-col w-full justify-center items-center mt-4">
           <Calendar
             className="custom-calendar rounded-lg p-5 text-sm font-medium text-sky-900"
             onClickDay={handleDateClick}
@@ -169,12 +169,13 @@ export function AppointmentSetter() {
               const appointment = getAppointmentByDate(date);
               if (appointment) {
                 return appointment.admin_id
-                  ? "highlight-green"
-                  : "highlight-orange";
+                ? "highlight-green"
+                : "highlight-orange";
               }
               return null;
             }}
           />
+            <p className="text-sky-950"><strong>Double click</strong> appt to cancel</p>
           <style>{`
             .react-calendar {
               width: 18rem; /* Fixed width for smaller calendar */
