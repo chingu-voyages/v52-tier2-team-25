@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
@@ -7,13 +7,16 @@ import Modal from "@/components/Modal/Modal";
 
 const Appointments = () => {
   const { user } = useAuth();
-  const { appointments, loading, role, refreshAppointments } = useAppointments(user);
+  const { appointments, loading, role, refreshAppointments } =
+    useAppointments(user);
   const { updateAppointment, updating } = useUpdateAppointment();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedAppointment, setSelectedAppointment] = useState(null); 
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const handleClickAssign = async (appointmentId) => {
-    const success = await updateAppointment(appointmentId, { admin_id: user.id });
+    const success = await updateAppointment(appointmentId, {
+      admin_id: user.id,
+    });
     if (success) {
       refreshAppointments();
     }
@@ -30,7 +33,12 @@ const Appointments = () => {
   useEffect(() => {
     const syncStatuses = async () => {
       for (const appointment of appointments) {
-        const appointmentDate = new Date(appointment.appointment_date).setHours(0, 0, 0, 0);
+        const appointmentDate = new Date(appointment.appointment_date).setHours(
+          0,
+          0,
+          0,
+          0
+        );
         let newStatus = "Due";
         if (today < appointmentDate) newStatus = "Upcoming";
         else if (today > appointmentDate) newStatus = "Past";
@@ -51,28 +59,42 @@ const Appointments = () => {
     if (appointments.length > 0) {
       syncStatuses();
     }
-  }, [appointments]); 
+  }, [appointments]);
 
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
 
-    const isValidStatus = appointment.status === "Due" || appointment.status === "Upcoming";
-    return isValidStatus && (
-      (appointment.appointment_date?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.appointment_time?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.type?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.address?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.contact?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.employee?.name?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.status?.toLowerCase() || "").includes(searchLower)
+    const isValidStatus =
+      appointment.status === "Due" || appointment.status === "Upcoming";
+    return (
+      isValidStatus &&
+      ((appointment.appointment_date?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
+        (appointment.appointment_time?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.type?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.address?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.user?.contact?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.employee?.name?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.status?.toLowerCase() || "").includes(searchLower))
     );
   });
 
   return (
     <div className="p-4 text-white w-full">
-      <h1 className="text-xl text-sky-900 font-bold mb-4">Future Appointments</h1>
+      <h1 className="text-xl text-sky-900 font-bold mb-4">
+        Future Appointments
+      </h1>
       <input
         type="text"
         placeholder="Search appointments..."
@@ -100,10 +122,7 @@ const Appointments = () => {
       )}
 
       {selectedAppointment && (
-        <Modal
-          appointment={selectedAppointment}
-          onClose={handleCloseModal}
-        />
+        <Modal appointment={selectedAppointment} onClose={handleCloseModal} />
       )}
     </div>
   );

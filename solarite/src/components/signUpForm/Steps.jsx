@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const Steps = ({ steps, currentStep, completedSteps }) => {
   return (
-    <div className="flex flex-col w-[40%] gap-4">
+    <div className="flex md:flex-col gap-4 text-center md:text-left">
       {steps.map((step) => {
         const isCompleted = completedSteps.includes(step.id);
         const isCurrent = step.id === currentStep;
@@ -10,7 +10,7 @@ const Steps = ({ steps, currentStep, completedSteps }) => {
         return (
           <div
             key={step.id}
-            className={`flex gap-3 items-center p-2 rounded-lg transition-colors`}
+            className={`flex flex-col md:flex-row gap-3 items-center md:p-2 rounded-lg transition-colors`}
           >
             <div className="step-icon">
               <svg
@@ -34,8 +34,20 @@ const Steps = ({ steps, currentStep, completedSteps }) => {
               </svg>
             </div>
             <div className={`${isCurrent ? "opacity-100" : "opacity-65"}`}>
-              <p className="font-bold">{step.label}</p>
-              <p>{step.details}</p>
+              <p
+                className={`text-sm sm:text-base md:text-lg font-semibold ${
+                  isCurrent ? "block" : "hidden sm:block"
+                }`}
+              >
+                {step.label}
+              </p>
+              <p
+                className={`text-xs sm:text-sm md:text-base ${
+                  isCurrent ? "block" : "hidden sm:block"
+                }`}
+              >
+                {step.details}
+              </p>
             </div>
           </div>
         );
