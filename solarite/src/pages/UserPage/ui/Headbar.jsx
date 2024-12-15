@@ -16,7 +16,7 @@ export function HeadBar() {
   return (
     <>
       <header className="flex justify-between w-full items-center z-10 text-white p-3 sticky bg-sky-900">
-        <Link to="/userPage">
+        <Link to="/user">
           <img src={solariteLogo} alt="solarite logo" className="w-h-14 h-14" />
         </Link>
 
@@ -41,7 +41,7 @@ export function HeadBar() {
             >
               Profile
             </Link>
-            
+
             <Link
               onClick={handleSignOut}
               className="hover:bg-sky-950 w-full py-2 text-center"

@@ -11,7 +11,7 @@ const SignUpForm = () => {
   const formState = useSignUpForm();
 
   return (
-    <main className="lg:space-y-6 space-y-4w-full text-white bg-gradient-to-b from-sky-800 to-green-200">
+    <main className="lg:space-y-6 space-y-4w-full h-dvh flex flex-col justify-between overflow-y-auto text-white bg-gradient-to-b from-sky-800 to-green-200">
       <SignUpNav />
 
       <FormContext.Provider value={formState}>

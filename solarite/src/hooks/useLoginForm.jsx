@@ -42,24 +42,22 @@ export const useLoginForm = ({ setUser }) => {
     const { user } = data;
 
     //add to the user table
-    const { error: insertError } = await supabase
-      .from('user')
-      .insert([
-        {
-          id: user.id,
-          name: values.name,
-          email: values.email,
-          contact: values.contact,
-          address: values.address,
-          profile_name: values.profileName
-        }
-      ]);
+    const { error: insertError } = await supabase.from("user").insert([
+      {
+        id: user.id,
+        name: values.name,
+        email: values.email,
+        contact: values.contact,
+        address: values.address,
+        profile_name: values.profileName,
+      },
+    ]);
 
     if (insertError) {
       console.error("Error:", insertError.message);
       return;
     }
-    navigate("/userPage");
+    navigate("/user");
     console.log("Sign-up successful:", data);
   };
 
@@ -81,20 +79,22 @@ export const useLoginForm = ({ setUser }) => {
 
     try {
       const { data: employeeData, error: employeeError } = await supabase
-        .from('employee')
-        .select('id')
-        .eq('id', user.id)
+        .from("employee")
+        .select("id")
+        .eq("id", user.id)
         .single();
 
       if (employeeError) {
-        if (employeeError.code === 'PGRST116') {  
-          console.warn("User not found in employee table, redirecting to user page.");
-          navigate("/userPage");
+        if (employeeError.code === "PGRST116") {
+          console.warn(
+            "User not found in employee table, redirecting to user page."
+          );
+          navigate("/user");
         } else {
           throw new Error(employeeError.message);
         }
       } else {
-        navigate("/adminPage/appointments");
+        navigate("/admin/appointments");
         console.log("Admin login successful:", user);
       }
     } catch (err) {

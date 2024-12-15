@@ -53,7 +53,6 @@ const WorkRoute = () => {
         console.error("Error fetching appointments:", error);
       } else {
         setAppointments(data);
-        console.log(data);
       }
     };
 
@@ -61,15 +60,19 @@ const WorkRoute = () => {
   }, [user]);
 
   return (
-    <div className="flex flex-col justify-center w-full h-dvh p-6 lg:p-8 space-y-10">
+    <div className="flex flex-col w-full h-screen overflow-y-auto p-6 pt-20 lg:p-8 space-y-10">
       <AdminHeading heading="Work Route" />
 
-      <Map
-        appointments={appointments}
-        setOptimizedAppointments={setOptimizedAppointments}
-      />
+      <div className="">
+        <Map
+          appointments={appointments}
+          setOptimizedAppointments={setOptimizedAppointments}
+        />
+      </div>
 
-      <AppointmentSchedule appointments={optimizedAppointments} />
+      <div className="flex-shrink-0 overflow-y-auto">
+        <AppointmentSchedule appointments={optimizedAppointments} />
+      </div>
     </div>
   );
 };

@@ -3,7 +3,6 @@ import { supabase } from "../services/supabase";
 import { signUpSchema } from "../schemas/signUpSchema";
 import { useNavigate } from "react-router-dom";
 
-
 export const useSignUpForm = () => {
   const [values, setValues] = useState({
     email: "",
@@ -114,7 +113,7 @@ export const useSignUpForm = () => {
       console.error("Error:", insertError.message);
       return;
     }
-    navigate("/userPage");
+    navigate("/user");
     console.log("Sign-up successful:", data);
   };
 
@@ -127,5 +126,4 @@ export const useSignUpForm = () => {
     validateData,
     setErrors,
   };
-  
 };

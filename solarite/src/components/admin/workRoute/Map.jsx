@@ -162,9 +162,10 @@ function Map({ appointments, setOptimizedAppointments }) {
   }, [mapLoaded, destinationsCoordinates, optimizedRoute]);
 
   return (
-    <div className="rounded-lg overflow-hidden h-[400px]">
-      <div ref={mapContainerRef} className="h-full w-full" />
-    </div>
+    <div
+      ref={mapContainerRef}
+      className="rounded-lg h-[400px] md:h-[400px] lg:h-[500px] w-full"
+    />
   );
 }
 

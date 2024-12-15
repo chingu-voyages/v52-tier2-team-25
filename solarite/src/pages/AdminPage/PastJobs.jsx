@@ -4,16 +4,20 @@ import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 import AppointmentCard from "@/components/appointmentsCards/AppointmentCard";
 import Modal from "@/components/Modal/Modal";
+import AdminHeading from "@/components/admin/AdminHeading";
 
 const PastJobs = () => {
   const { user } = useAuth();
-  const { appointments, loading, role, refreshAppointments } = useAppointments(user);
+  const { appointments, loading, role, refreshAppointments } =
+    useAppointments(user);
   const { updateAppointment, updating } = useUpdateAppointment();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedAppointment, setSelectedAppointment] = useState(null); 
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   const handleClickAssign = async (appointmentId) => {
-    const success = await updateAppointment(appointmentId, { admin_id: user.id });
+    const success = await updateAppointment(appointmentId, {
+      admin_id: user.id,
+    });
     if (success) {
       refreshAppointments();
     }
@@ -30,23 +34,39 @@ const PastJobs = () => {
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
 
-    const isValidStatus = appointment.status === "Past" ;
-    return isValidStatus && (
-      (appointment.appointment_date?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.appointment_time?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.type?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.address?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.user?.contact?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.employee?.name?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.status?.toLowerCase() || "").includes(searchLower)
+    const isValidStatus = appointment.status === "Past";
+    return (
+      isValidStatus &&
+      ((appointment.appointment_date?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
+        (appointment.appointment_time?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.type?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
+        (appointment.user?.address?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.user?.contact?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.employee?.name?.toLowerCase() || "").includes(
+          searchLower
+        ) ||
+        (appointment.status?.toLowerCase() || "").includes(searchLower))
     );
   });
   useEffect(() => {
     const syncStatuses = async () => {
       for (const appointment of appointments) {
-        const appointmentDate = new Date(appointment.appointment_date).setHours(0, 0, 0, 0);
+        const appointmentDate = new Date(appointment.appointment_date).setHours(
+          0,
+          0,
+          0,
+          0
+        );
         let newStatus = "Due";
         if (today < appointmentDate) newStatus = "Upcoming";
         else if (today > appointmentDate) newStatus = "Past";
@@ -67,23 +87,25 @@ const PastJobs = () => {
     if (appointments.length > 0) {
       syncStatuses();
     }
-  }, [appointments]); 
+  }, [appointments]);
 
   return (
-    <div className="p-4 text-white w-full">
-      <h1 className="text-xl text-sky-900 font-bold mb-4">Past Jobs</h1>
-      <input
-        type="text"
-        placeholder="Search appointments..."
-        className="mb-4 p-2 border rounded w-full text-black"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+    <div className=" text-white w-full h-dvh overflow-y-auto">
+      <div className=" top-0 sticky p-4 bg-white">
+        <AdminHeading heading={"Past Jobs"} />
+        <input
+          type="text"
+          placeholder="Search appointments..."
+          className="mb-4 p-2 border rounded w-full text-black"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : filteredAppointments.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {filteredAppointments.map((appointment) => (
             <AppointmentCard
               key={appointment.id}
@@ -99,14 +121,10 @@ const PastJobs = () => {
       )}
 
       {selectedAppointment && (
-        <Modal
-          appointment={selectedAppointment}
-          onClose={handleCloseModal}
-        />
+        <Modal appointment={selectedAppointment} onClose={handleCloseModal} />
       )}
     </div>
   );
 };
-
 
 export default PastJobs;

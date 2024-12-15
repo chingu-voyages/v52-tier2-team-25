@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import solariteLogo from "/solarite-logo-w.svg";
 import { Button } from "@/components/Button";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth"; 
+import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "../services/supabase";
-
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -21,15 +20,15 @@ export function Navbar() {
 
     try {
       const { data: employeeData, error: employeeError } = await supabase
-        .from('employee')
-        .select('id')
-        .eq('id', user.id)
+        .from("employee")
+        .select("id")
+        .eq("id", user.id)
         .single();
 
       if (employeeError || !employeeData) {
-        gotToPath({ path: "/userPage", state: "user" });
+        gotToPath({ path: "/user", state: "user" });
       } else {
-        gotToPath({ path: "/adminPage", state: "admin" });
+        gotToPath({ path: "/admin/appointments", state: "admin" });
       }
     } catch (err) {
       console.error("Error checking user role:", err.message);
@@ -37,15 +36,10 @@ export function Navbar() {
     }
   };
 
-    return(
-
-      <header className="flex justify-between w-full items-center z-10 text-white p-5 fixed backdrop-blur-[5px]">
+  return (
+    <header className="flex justify-between w-full items-center z-10 text-white p-5 fixed backdrop-blur-[5px]">
       <Link to="/">
-        <img
-          src={solariteLogo}
-          alt="solarite logo"
-          className="w-h-14 h-14"
-        />
+        <img src={solariteLogo} alt="solarite logo" className="w-h-14 h-14" />
       </Link>
 
       <Button
@@ -54,6 +48,5 @@ export function Navbar() {
         className="py-2 text-black transition-all duration-500 bg-white rounded-full px-9 hover:bg-transparent hover:border hover:text-white"
       />
     </header>
-
-    )
+  );
 }
