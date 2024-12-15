@@ -80,11 +80,11 @@ export function Landing() {
           <div className="pt-5 pb-20 content">
             <Link>
               <p className="flex gap-3 items-center text-sky-950">
-                <IoHelpBuoy />
+                <IoCall />
                 +1 265-555-6589
               </p>
               <p className="flex gap-3 items-center text-sky-950">
-                <IoCall />
+                <IoHelpBuoy />
                 help.solarite@mail.com
               </p>
             </Link>
