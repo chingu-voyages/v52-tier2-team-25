@@ -182,7 +182,7 @@ export function AppointmentSetter() {
               font-size: 0.85rem; /* Smaller font size for calendar */
             }
             .react-calendar__tile--now {
-              border-radius: 100%;
+              border-radius: 10%;
               background-color: red;
               color: white;
             }
