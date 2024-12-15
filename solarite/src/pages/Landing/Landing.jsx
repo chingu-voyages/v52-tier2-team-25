@@ -13,14 +13,11 @@ export function Landing() {
   };
 
   return (
-    // Ensure the outermost container uses overflow-x-hidden
     <div className="w-screen h-screen overflow-x-hidden">
-      {/* Use full height/width container */}
       <div className="w-full h-full">
         <Navbar />
         {/* Home Section */}
         <section className="relative flex flex-col items-center justify-center w-full h-full overflow-hidden text-white home gap-20">
-          {/* Video Background */}
           <video
             loop
             autoPlay
@@ -30,14 +27,12 @@ export function Landing() {
             <source src={bgVid} type="video/mp4" />
           </video>
 
-          {/* Hero Text */}
           <h1
             aria-label="hero text"
             className="text-6xl sm:text-8xl leading-tight text-center w-10/12 sm:w-8/12 font-semibold"
           >
             CALIFORNIA SOLAR PANEL PROGRAM
           </h1>
-          {/* CTA */}
           <div className="flex flex-col items-center font-semibold">
             <h3>Learn more</h3>
             <IoArrowDownOutline />
@@ -63,7 +58,6 @@ export function Landing() {
           className="flex flex-col items-center justify-center w-full text-white about bg-gradient-to-t from-sky-950 to-black py-20"
         >
           <h2 className="text-5xl">About us</h2>
-          {/* Use max width and padding for responsive design */}
           <div className="content max-w-4xl w-full px-5 mt-10">
             <p className="text-lg sm:text-2xl text-center text-sky-100">
               At Solarite, we are dedicated to providing affordable and
