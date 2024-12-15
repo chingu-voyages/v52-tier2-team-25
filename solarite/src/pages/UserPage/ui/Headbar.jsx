@@ -36,16 +36,17 @@ export function HeadBar() {
             className="dropdown bg-sky-900 text-white flex flex-col items-center absolute w-36 h-fit gap-3"
           >
             <Link
-              onClick={handleSignOut}
-              className="hover:bg-sky-950 w-full py-2 text-center"
-            >
-              Logout
-            </Link>
-            <Link
               to={"/profile-settings"}
               className="hover:bg-sky-950 w-full py-2 text-center"
             >
               Profile
+            </Link>
+            
+            <Link
+              onClick={handleSignOut}
+              className="hover:bg-sky-950 w-full py-2 text-center"
+            >
+              Logout
             </Link>
           </div>
         </div>
