@@ -29,7 +29,7 @@ export function Landing() {
 
           <h1
             aria-label="hero text"
-            className="text-6xl sm:text-8xl leading-tight text-center w-10/12 sm:w-8/12 font-semibold"
+            className="text-[3.56rem] sm:text-8xl leading-tight text-center w-10/12 sm:w-8/12 font-semibold"
           >
             CALIFORNIA SOLAR PANEL PROGRAM
           </h1>
