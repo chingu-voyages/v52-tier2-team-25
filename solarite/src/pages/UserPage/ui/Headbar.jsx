@@ -16,7 +16,7 @@ export function HeadBar() {
   return (
     <>
       <header className="flex justify-between w-full items-center z-10 text-white p-3 sticky bg-sky-900">
-        <Link to="/">
+        <Link to="/userPage">
           <img src={solariteLogo} alt="solarite logo" className="w-h-14 h-14" />
         </Link>
 
