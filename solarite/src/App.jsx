@@ -23,7 +23,7 @@ const App = () => {
         <Route path="past-jobs" element={<PastJobs />} />
         <Route path="all-appointments" element={<AppointmentsTable />} />
       </Route>
-      <Route path="/userPage" element={<UserPage />} />
+      <Route path="/user" element={<UserPage />} />
       <Route path="/profile-settings" element={<UserProfile />} />
     </Routes>
   );

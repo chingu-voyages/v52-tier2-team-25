@@ -112,25 +112,29 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
   };
 
   return (
-    <form ref={formRef} className="gap-4 py-8 lg:h-[610px] px-20">
-      <div className="flex px-14 py-8 h-full rounded-xl shadow-2xl backdrop-blur-3xl bg-white/25">
-        <Steps
-          steps={steps}
-          currentStep={currentStep}
-          completedSteps={completedSteps}
-        />
+    <form ref={formRef} className="gap-4 py-8 px-4 md:px-10 lg:px-20">
+      <div className="flex flex-col  md:flex-row px-4 md:px-10 lg:px-14 py-8 rounded-xl shadow-2xl backdrop-blur-3xl bg-white/25 space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row w-full justify-center md:justify-start md:w-[45%]">
+          <Steps
+            steps={steps}
+            currentStep={currentStep}
+            completedSteps={completedSteps}
+          />
+        </div>
 
-        <div className="h-full w-[1px] bg-gray-300/50" />
+        <div className="hidden sm:block  w-[1px] bg-gray-300/50" />
 
         <div className="flex flex-col flex-1 items-center space-y-5">
           <div className="text-center">
-            <h2 className="text-4xl font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
               {steps[currentStep - 1].label}
             </h2>
-            <p className="">{steps[currentStep - 1].details}</p>
+            <p className="text-sm sm:text-base md:text-lg">
+              {steps[currentStep - 1].details}
+            </p>
           </div>
 
-          <div className="h-[60%]">{renderStep()}</div>
+          <div className="">{renderStep()}</div>
           <div className="flex gap-x-4 text-white">
             <button
               type="button"
@@ -146,7 +150,7 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
             {currentStep < steps.length ? (
               <button
                 type="button"
-                className="py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
+                className="py-2 w-28 lg:w-36 bg-[#00fa00] font-semibold text-slate-200
             hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg"
                 onClick={handleNext}
               >
@@ -156,7 +160,7 @@ const SignUpFormSection = ({ handleFormRegisterSubmit }) => {
               <button
                 type="button"
                 onClick={handleFormRegisterSubmit}
-                className="py-2 w-36 bg-[#00fa00] font-semibold text-slate-200
+                className="py-2 w-28 lg:w-36 bg-[#00fa00] font-semibold text-slate-200
             hover:text-white hover:bg-[#00fa00]/50 focus:outline-none focus:ring-1 focus:ring-[#00fa00]/50 rounded-lg"
               >
                 Submit

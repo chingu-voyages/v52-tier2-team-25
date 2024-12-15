@@ -8,7 +8,7 @@ export const SignUpInput = ({ label, name, type, required }) => {
     <div
       className={`flex flex-col gap-2 ${errors[name] ? "text-red-500" : ""}`}
     >
-      <label className="text-[1.1em]">{label}</label>
+      <label className="text-sm sm:text-base md:text-lg">{label}</label>
       <input
         required={required}
         name={name}
