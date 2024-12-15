@@ -8,6 +8,7 @@ import Appointments from "./pages/AdminPage/Appointments";
 import WorkRoute from "./pages/AdminPage/WorkRoute";
 import PastJobs from "./pages/AdminPage/PastJobs";
 import AppointmentsTable from "./pages/AppointmentsTable/Appointments";
+import { UserProfile } from "./pages/UserProfilePage/UserProfile";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="all-appointments" element={<AppointmentsTable />} />
       </Route>
       <Route path="/userPage" element={<UserPage />} />
+      <Route path="/profile-settings" element={<UserProfile />} />
     </Routes>
   );
 };
