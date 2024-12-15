@@ -11,17 +11,20 @@ import { useAuth } from "../../hooks/useAuth";
 import useAppointments from "../../hooks/useAppointments";
 import useUpdateAppointment from "@/hooks/useUpdateAppointments";
 import { Button } from "../../components/Button";
-import { supabase } from "../../services/supabase"; 
+import { supabase } from "../../services/supabase";
 
 const AppointmentsTable = () => {
   const { user } = useAuth();
-  const { appointments, loading, role, refreshAppointments } = useAppointments(user);
+  const { appointments, loading, role, refreshAppointments } =
+    useAppointments(user);
   const { updateAppointment, updating } = useUpdateAppointment();
   const [searchTerm, setSearchTerm] = useState("");
   const today = new Date();
 
   const handleClickAssign = async (appointmentId) => {
-    const success = await updateAppointment(appointmentId, { admin_id: user.id });
+    const success = await updateAppointment(appointmentId, {
+      admin_id: user.id,
+    });
     if (success) {
       refreshAppointments();
     }
@@ -30,7 +33,12 @@ const AppointmentsTable = () => {
   useEffect(() => {
     const syncStatuses = async () => {
       for (const appointment of appointments) {
-        const appointmentDate = new Date(appointment.appointment_date).setHours(0, 0, 0, 0);
+        const appointmentDate = new Date(appointment.appointment_date).setHours(
+          0,
+          0,
+          0,
+          0
+        );
         let newStatus = "Due";
         if (today < appointmentDate) newStatus = "Upcoming";
         else if (today > appointmentDate) newStatus = "Past";
@@ -51,13 +59,17 @@ const AppointmentsTable = () => {
     if (appointments.length > 0) {
       syncStatuses();
     }
-  }, [appointments]); 
+  }, [appointments]);
 
   const filteredAppointments = appointments.filter((appointment) => {
     const searchLower = searchTerm.toLowerCase();
     return (
-      (appointment.appointment_date?.toLowerCase() || "").includes(searchLower) ||
-      (appointment.appointment_time?.toLowerCase() || "").includes(searchLower) ||
+      (appointment.appointment_date?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
+      (appointment.appointment_time?.toLowerCase() || "").includes(
+        searchLower
+      ) ||
       (appointment.user?.name?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.email?.toLowerCase() || "").includes(searchLower) ||
       (appointment.user?.address?.toLowerCase() || "").includes(searchLower) ||
@@ -68,7 +80,7 @@ const AppointmentsTable = () => {
   });
 
   return (
-    <div className="p-4 text-black">
+    <div className="p-4 text-black h-dvh overflow-y-auto">
       <h1 className="text-xl text-sky-900 font-bold mb-4">All Appointments</h1>
       <input
         type="text"
@@ -98,14 +110,13 @@ const AppointmentsTable = () => {
             {filteredAppointments.map((appointment) => (
               <TableRow key={appointment.id}>
                 <TableCell>
-                  {appointment.employee?.name || (
-                    role === "employee" && (
+                  {appointment.employee?.name ||
+                    (role === "employee" && (
                       <Button
                         label={updating ? "Assigning..." : "Assign to Me"}
                         onClick={() => handleClickAssign(appointment.id)}
                       />
-                    )
-                  )}
+                    ))}
                 </TableCell>
                 <TableCell>{appointment.appointment_date}</TableCell>
                 <TableCell>{appointment.appointment_time}</TableCell>
@@ -116,13 +127,15 @@ const AppointmentsTable = () => {
 
                 <TableCell>
                   {(() => {
-                    const appointmentDate = new Date(appointment.appointment_date);
+                    const appointmentDate = new Date(
+                      appointment.appointment_date
+                    );
                     if (today < appointmentDate) {
-                      return 'Upcoming';
+                      return "Upcoming";
                     } else if (today > appointmentDate) {
-                      return 'Past';
+                      return "Past";
                     } else {
-                      return 'Due';
+                      return "Due";
                     }
                   })()}
                 </TableCell>

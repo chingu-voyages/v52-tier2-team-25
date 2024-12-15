@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 
 export const AdminDashboard = () => {
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <AdminSidebar />
-      <Outlet />
+      <div className="flex-1 overflow-hidden">
+        <Outlet />
+      </div>
     </div>
   );
 };
