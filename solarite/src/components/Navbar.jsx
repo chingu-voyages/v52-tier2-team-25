@@ -1,4 +1,3 @@
-import { navList } from "@/constants/constants";
 import { Link } from "react-router-dom";
 import solariteLogo from "/solarite-logo-w.svg";
 import { Button } from "@/components/Button";
@@ -48,17 +47,7 @@ export function Navbar() {
           className="w-h-14 h-14"
         />
       </Link>
-        <nav className="flex gap-14">
-        {navList.map((nav) => (
-          <Link
-            key={nav.name}
-            to={nav.path}
-            className=" hover:text-blue-900 transition-all duration-500"
-          >
-            {nav.name}
-          </Link>
-        ))}
-      </nav>
+
       <Button
         onClick={navigateTo}
         label="Login"
