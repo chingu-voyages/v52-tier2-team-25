@@ -38,7 +38,7 @@ const AdminSidebar = () => {
       >
         <Logo />
 
-        <AdminNav />
+        <AdminNav toggleSidebar={toggleSidebar} />
 
         <AdminInfo />
       </aside>

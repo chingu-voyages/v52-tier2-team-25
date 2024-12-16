@@ -60,7 +60,7 @@ const WorkRoute = () => {
   }, [user]);
 
   return (
-    <div className="flex flex-col w-full h-screen overflow-y-auto p-6 pt-20 lg:p-8 space-y-10">
+    <div className="flex flex-col w-full h-screen overflow-y-auto p-6  lg:p-8 space-y-10">
       <AdminHeading heading="Work Route" />
 
       <div className="">
