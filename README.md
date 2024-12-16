@@ -11,8 +11,6 @@ coding!
 
 - Kirk Black: [GitHub](https://github.com/kirkblackjr) / [LinkedIn](https://www.linkedin.com/in/kirk-black-in-tech/)
 - Troy: [GitHub](https://github.com/Troyzhenny) / [LinkedIn](https://www.linkedin.com/in/tevin-campbell/)
-- Yash: [GitHub](https://github.com/chyashp) / [LinkedIn](www.linkedin.com/in/yash-kaur)
-- Dave: [GitHub](https://github.com/dametorwobla) / [LinkedIn](https://www.linkedin.com/in/david-ametorwobla-353224a1/)
 - Yashwanth: [GitHub](https://github.com/tigeryash) / [LinkedIn](https://www.linkedin.com/in/yashwanth-v-29a88392/)
 - Tuyet Nguyen: [GitHub](https://github.com/hongtuyet91) / [LinkedIn](https://www.linkedin.com/in/nguyen-tuyet/)
 - Deborah Lyra: [GitHub](https://github.com/DeborahLyra) / [LinkedIn](https://www.linkedin.com/in/deborah-prado-lyra-developer/)
