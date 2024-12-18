@@ -22,6 +22,7 @@ export function Landing() {
             loop
             autoPlay
             muted
+            playsinline
             className="absolute inset-0 w-full h-full object-cover z-[-2]"
           >
             <source src={bgVid} type="video/mp4" />
